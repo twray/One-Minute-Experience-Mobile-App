@@ -1,18 +1,18 @@
-interface StorySegment {
+export interface IStorySegment {
   readonly id: number;
   readonly text: string;
 }
 
-interface Artwork {
+export interface IArtwork {
   readonly id: number;
   readonly title: string;
   readonly artistName: string;
   readonly artistNationality: string;
   readonly imageUrl: string;
-  readonly stories: StorySegment[];
+  readonly stories: IStorySegment[];
 }
 
-const monaLisa: Artwork = {
+const monaLisa: IArtwork = {
   id: 22,
   title: 'Mona Lisa',
   artistName: 'Leonardo da Vinci',
@@ -42,7 +42,7 @@ const monaLisa: Artwork = {
   ],
 };
 
-const mockArtworks: Artwork[] = [monaLisa];
+const mockArtworks: IArtwork[] = [monaLisa];
 
 export async function getArtworkByPicture(picture: any) {
   return mockArtworks[Math.floor(Math.random() * mockArtworks.length)];

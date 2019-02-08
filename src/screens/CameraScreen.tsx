@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-
 import styles from '../styles';
-
+import { getArtworkById } from '../services/ArtworkService';
 interface CameraScreenProps extends NavigationScreenProps {}
 
 export default class CameraScreen extends React.Component<
@@ -28,8 +27,10 @@ export default class CameraScreen extends React.Component<
     );
   }
 
-  private showStory() {
-    this.props.navigation.navigate('StoryModal');
+  private async showStory() {
+    this.props.navigation.navigate('StoryModal', {
+      artwork: await getArtworkById(22),
+    });
   }
 
   private goToFavorites() {
