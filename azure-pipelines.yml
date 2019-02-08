@@ -1,2 +1,11 @@
-- script: npm install
-- script: npm run test
+pool:
+  vmImage: 'Ubuntu-16.04'
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'install node.js'
+  - script: |
+      npm install
+      npm run test
+    displayName: 'install and test'
