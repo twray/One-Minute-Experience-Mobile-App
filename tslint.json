@@ -2,6 +2,15 @@
   "extends": ["tslint:recommended", "tslint-config-airbnb"],
   "rules": {
     "ordered-imports": false,
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "no-empty-interface": false,
+    "interface-name": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case"
+    ],
+    "import-name": false
   }
 }
