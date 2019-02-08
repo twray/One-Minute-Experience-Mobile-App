@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+import CameraView from '../components/Camera/CameraView';
 
 import styles from '../styles';
 
@@ -20,11 +21,12 @@ export default class CameraScreen extends React.Component<
 
   public render() {
     return (
-      <View style={styles.fullCenterView}>
-        <Text>CameraScreen</Text>
-        <Button title="Show story" onPress={() => this.showStory()} />
-        <Button title="Go to favorites" onPress={() => this.goToFavorites()} />
-      </View>
+      <CameraView/>
+      // <View style={styles.fullCenterView}>
+      //   <Text>CameraScreen</Text>
+      //   <Button title="Show story" onPress={() => this.showStory()} />
+      //   <Button title="Go to favorites" onPress={() => this.goToFavorites()} />
+      // </View>
     );
   }
 
