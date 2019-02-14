@@ -3,6 +3,7 @@ import { View, Text, Button } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import styles from '../styles';
 import { getArtworkById } from '../services/ArtworkService';
+import { Constants } from 'expo';
 interface CameraScreenProps extends NavigationScreenProps {}
 
 export default class CameraScreen extends React.Component<
@@ -19,7 +20,7 @@ export default class CameraScreen extends React.Component<
 
   public render() {
     return (
-      <View style={styles.fullCenterView}>
+      <View style={{ top: Constants.statusBarHeight }}>
         <Text>CameraScreen</Text>
         <Button title="Show story" onPress={() => this.showStory()} />
         <Button title="Go to favorites" onPress={() => this.goToFavorites()} />

@@ -5,6 +5,7 @@ import {
   SwitchNavigator,
   createNavigationContainer,
 } from 'react-navigation';
+import styles from './style';
 
 export interface StorySegmentProps {
   text: string;
@@ -23,7 +24,7 @@ export default class StorySegment extends React.Component<
 
   public render() {
     return (
-      <View>
+      <View style={styles.card}>
         <Text>{this.props.text}</Text>
       </View>
     );
