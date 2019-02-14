@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../styles';
+import { Constants } from 'expo';
 
 export default StyleSheet.create({
   card: {
@@ -10,6 +11,9 @@ export default StyleSheet.create({
     shadowColor: colors.black,
     shadowOpacity: 0.8,
     borderBottomColor: colors.background2,
-    elevation: 100,
+    top: 100,
+  },
+  firstcard: {
+    height: 10,
   },
 });

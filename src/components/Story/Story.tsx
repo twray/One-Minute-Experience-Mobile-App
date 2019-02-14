@@ -6,35 +6,43 @@ import Carousel, {
   AdditionalParallaxProps,
 } from 'react-native-snap-carousel';
 import StorySegment from '../StorySegment/StorySegment';
-import { IStorySegment } from '../../services/ArtworkService';
+import { IStorySegment, IArtwork } from '../../services/ArtworkService';
 import { itemWidth, sliderWidth } from '../../styles/Story';
 import styles, { colors } from '../../styles';
+// import styles from './style';
 
 export interface StoryProps {
-  segments: IStorySegment[];
+  artwork: IArtwork;
 }
 export interface StoryState {
-  slider1ActiveSlider: number;
+  sliderActiveSlider: number;
 }
 class StoryCarousel extends Carousel<IStorySegment> {}
 export default class Story extends React.Component<StoryProps, StoryState> {
   constructor(props: StoryProps) {
     super(props);
     this.state = {
-      slider1ActiveSlider: 1,
+      sliderActiveSlider: 0,
     };
+    this.renderItem = this.renderItem.bind(this);
   }
 
   public renderItem({ item }: { item: IStorySegment }) {
-    return <StorySegment text={item.text} />;
+    return (
+      <StorySegment
+        artwork={this.props.artwork}
+        story={item}
+        index={this.state.sliderActiveSlider}
+      />
+    );
   }
 
   public render() {
-    const { slider1ActiveSlider } = this.state;
+    const { sliderActiveSlider } = this.state;
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <Carousel
-          data={this.props.segments}
+          data={this.props.artwork.stories}
           renderItem={this.renderItem}
           vertical={false}
           layout={'default'}
@@ -43,11 +51,11 @@ export default class Story extends React.Component<StoryProps, StoryState> {
           hasParallaxImages={true}
           containerCustomStyle={styles.slider}
           contentContainerCustomStyle={styles.sliderContentContainer}
-          onSnapToItem={index => this.setState({ slider1ActiveSlider: index })}
+          onSnapToItem={index => this.setState({ sliderActiveSlider: index })}
         />
         <Pagination
-          dotsLength={this.props.segments.length}
-          activeDotIndex={slider1ActiveSlider}
+          dotsLength={this.props.artwork.stories.length}
+          activeDotIndex={sliderActiveSlider}
           containerStyle={styles.paginationContainer}
           dotColor={'rgba(255, 255, 255, 0.92)'}
           dotStyle={styles.paginationDot}

@@ -27,9 +27,15 @@ export default class StoryModalScreen extends React.Component<
     const artwork = this.props.navigation.getParam('artwork');
     if (!artwork) return <View />;
     return (
-      <View style={{ top: Constants.statusBarHeight }}>
+      <View
+        style={{
+          top: Constants.statusBarHeight,
+          flex: 1,
+          justifyContent: 'center',
+        }}
+      >
         <Text>Mona Lisa, Good ol' Leo, 1993</Text>
-        <Story segments={artwork.stories} />
+        <Story artwork={artwork} />
         <Button
           title="Dismiss"
           onPress={() => this.props.navigation.goBack()}
