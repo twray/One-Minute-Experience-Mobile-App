@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+
+import FullScreenCamera from '../components/FullScreenCamera';
 
 import styles from '../styles';
 
@@ -16,16 +18,16 @@ export default class CameraScreen extends React.Component<
 
   constructor(props: CameraScreenProps) {
     super(props);
+    this.handlePictureTaken = this.handlePictureTaken.bind(this);
   }
 
   public render() {
-    return (
-      <View style={styles.fullCenterView}>
-        <Text>CameraScreen</Text>
-        <Button title="Show story" onPress={() => this.showStory()} />
-        <Button title="Go to favorites" onPress={() => this.goToFavorites()} />
-      </View>
-    );
+    return <FullScreenCamera onPictureTaken={this.handlePictureTaken} />;
+  }
+
+  private handlePictureTaken(imageData: string) {
+    Alert.alert(`Picture taken! 📸\n${imageData.substring(0, 15)}...`);
+    this.props.navigation.navigate('StoryModal');
   }
 
   private showStory() {
