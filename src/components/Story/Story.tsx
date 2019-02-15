@@ -1,15 +1,10 @@
 import * as React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import Carousel, {
-  Pagination,
-  ParallaxImage,
-  AdditionalParallaxProps,
-} from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import StorySegment from '../StorySegment/StorySegment';
 import { IStorySegment, IArtwork } from '../../services/ArtworkService';
 import { itemWidth, sliderWidth } from '../../styles/Story';
 import styles, { colors } from '../../styles';
-// import styles from './style';
 
 export interface StoryProps {
   artwork: IArtwork;
@@ -17,7 +12,6 @@ export interface StoryProps {
 export interface StoryState {
   sliderActiveSlider: number;
 }
-class StoryCarousel extends Carousel<IStorySegment> {}
 export default class Story extends React.Component<StoryProps, StoryState> {
   constructor(props: StoryProps) {
     super(props);
@@ -63,10 +57,6 @@ export default class Story extends React.Component<StoryProps, StoryState> {
           inactiveDotOpacity={0.4}
           inactiveDotScale={0.6}
         />
-
-        {/* {this.props.segments.map((segment, index) => (
-          <StorySegment key={segment.id} text={segment.text} />
-        ))} */}
       </View>
     );
   }

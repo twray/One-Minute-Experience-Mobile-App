@@ -1,3 +1,5 @@
+import { getAPIEndpoint } from '../environment';
+
 export interface IStorySegment {
   readonly id: number;
   readonly text: string;
@@ -46,8 +48,16 @@ const monaLisa: IArtwork = {
 
 const mockArtworks: IArtwork[] = [monaLisa];
 
-export async function getArtworkByPicture(picture: any) {
-  return mockArtworks[Math.floor(Math.random() * mockArtworks.length)];
+export async function getArtworkByPicture(imageData: string) {
+  const apiEndpoint = `${getAPIEndpoint()}/artworks/query`;
+  const response = await fetch(apiEndpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ imageData }),
+  });
+  return (await response.json()) as IArtwork;
 }
 
 export async function getArtworkById(id: number) {
