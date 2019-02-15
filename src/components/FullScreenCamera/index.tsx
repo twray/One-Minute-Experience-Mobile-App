@@ -100,7 +100,7 @@ export default class CameraView extends React.Component<
       const { width, height } = Dimensions.get('screen');
       const screenRatio = height / width;
       const ratios = await this.camera.current.getSupportedRatiosAsync();
-      const ratiosRatio = ratios.map(r => {
+      const ratiosRatio = ratios.map((r) => {
         const [h, w] = r.split(':');
         return parseFloat(h) / parseFloat(w);
       });
