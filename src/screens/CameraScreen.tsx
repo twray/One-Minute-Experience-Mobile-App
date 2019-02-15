@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { View, Text, Button, Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
 import FullScreenCamera from '../components/FullScreenCamera';
-
-import styles from '../styles';
+import { getArtworkByPicture } from '../services/ArtworkService';
 
 interface CameraScreenProps extends NavigationScreenProps {}
 
@@ -25,9 +23,11 @@ export default class CameraScreen extends React.Component<
     return <FullScreenCamera onPictureTaken={this.handlePictureTaken} />;
   }
 
-  private handlePictureTaken(imageData: string) {
-    Alert.alert(`Picture taken! 📸\n${imageData.substring(0, 15)}...`);
-    this.props.navigation.navigate('StoryModal');
+  private async handlePictureTaken(imageData: string) {
+    const artwork = await getArtworkByPicture('');
+    this.props.navigation.navigate('StoryModal', {
+      artwork,
+    });
   }
 
   private showStory() {
