@@ -6357,6 +6357,13 @@ react-native-branch@2.2.5:
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
   integrity sha1-QHTdY7SXPmOX2c5Q6XtXx3pRjp0=
 
+react-native-camera@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-1.11.1.tgz#c192f832f81bc804f561c80224c842ddee1c934e"
+  integrity sha512-J+SqIMbjczNvo5gjMcvNOpFIV5tB5aKWbdaVqNrlzGqkNqwg3JpxqB7PenYvfyfAsUimbla4xPMs7UkwdbuURg==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-gesture-handler@1.0.14:
   version "1.0.14"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.14.tgz#0e79fcc7175c9bb2e550917a35488100eec8738b"
