@@ -30,10 +30,10 @@ export default class StorySegment extends React.Component<
     const { index } = this.props;
     if (index === 0) {
       return this.renderFirstItem();
-    } else {
-      return this.renderItem();
     }
+    return this.renderItem();
   }
+
   public renderFirstItem() {
     return (
       <View style={{ flex: 1 }}>
