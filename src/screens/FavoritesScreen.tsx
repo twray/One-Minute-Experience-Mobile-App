@@ -20,7 +20,7 @@ export default class FavoritesScreen extends React.Component<
 
   public render() {
     return (
-      <View style={styles.fullCenterView}>
+      <View>
         <Text>This is a list of my favorite artworks</Text>
       </View>
     );

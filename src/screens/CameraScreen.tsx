@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { NavigationScreenProps } from 'react-navigation';
+import styles from '../styles';
+import {
+  getArtworkById,
+  getArtworkByPicture,
+} from '../services/ArtworkService';
+import { Constants } from 'expo';
 
 import FullScreenCamera from '../components/FullScreenCamera';
-import { getArtworkByPicture } from '../services/ArtworkService';
-
 interface CameraScreenProps extends NavigationScreenProps {}
 
 export default class CameraScreen extends React.Component<
@@ -24,14 +28,17 @@ export default class CameraScreen extends React.Component<
   }
 
   private async handlePictureTaken(imageData: string) {
-    const artwork = await getArtworkByPicture('');
+    // const artwork = await getArtworkByPicture('');
+    const artwork = await getArtworkById(22);
     this.props.navigation.navigate('StoryModal', {
       artwork,
     });
   }
 
-  private showStory() {
-    this.props.navigation.navigate('StoryModal');
+  private async showStory() {
+    this.props.navigation.navigate('StoryModal', {
+      artwork: await getArtworkById(22),
+    });
   }
 
   private goToFavorites() {

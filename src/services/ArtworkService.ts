@@ -1,24 +1,26 @@
 import { getAPIEndpoint } from '../environment';
 
-interface StorySegment {
+export interface IStorySegment {
   readonly id: number;
   readonly text: string;
 }
 
-interface Artwork {
+export interface IArtwork {
   readonly id: number;
   readonly title: string;
   readonly artistName: string;
   readonly artistNationality: string;
+  readonly releaseYear: number;
   readonly imageUrl: string;
-  readonly stories: StorySegment[];
+  readonly stories: IStorySegment[];
 }
 
-const monaLisa: Artwork = {
+const monaLisa: IArtwork = {
   id: 22,
   title: 'Mona Lisa',
   artistName: 'Leonardo da Vinci',
   artistNationality: 'Italy',
+  releaseYear: 1999,
   imageUrl:
     // tslint:disable-next-line
     'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/1024px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
@@ -44,7 +46,7 @@ const monaLisa: Artwork = {
   ],
 };
 
-const mockArtworks: Artwork[] = [monaLisa];
+const mockArtworks: IArtwork[] = [monaLisa];
 
 export async function getArtworkByPicture(imageData: string) {
   const apiEndpoint = `${getAPIEndpoint()}/artworks/query`;
@@ -55,8 +57,7 @@ export async function getArtworkByPicture(imageData: string) {
     },
     body: JSON.stringify({ imageData }),
   });
-  return (await response.json()) as Artwork;
-  // return mockArtworks[Math.floor(Math.random() * mockArtworks.length)];
+  return (await response.json()) as IArtwork;
 }
 
 export async function getArtworkById(id: number) {
