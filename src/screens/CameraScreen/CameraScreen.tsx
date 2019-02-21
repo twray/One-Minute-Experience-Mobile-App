@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import styles from '../styles';
-import {
-  getArtworkById,
-  getArtworkByPicture,
-} from '../services/ArtworkService';
-import { Constants } from 'expo';
 
-import FullScreenCamera from '../components/FullScreenCamera';
+import { getArtworkById } from '../../services/ArtworkService';
+import FullScreenCamera from '../../components/FullScreenCamera';
+import styles from './styles';
 
 interface CameraScreenProps extends NavigationScreenProps {}
 
@@ -27,6 +23,7 @@ export default class CameraScreen extends React.Component<
   constructor(props: CameraScreenProps) {
     super(props);
     this.handlePictureTaken = this.handlePictureTaken.bind(this);
+    this.setLoading = this.setLoading.bind(this);
     this.state = {
       isLoading: false,
     };
@@ -34,35 +31,30 @@ export default class CameraScreen extends React.Component<
 
   public render() {
     return (
-      <View style={{ flex: 1 }}>
-        <FullScreenCamera onPictureTaken={this.handlePictureTaken} />
+      <View style={styles.container}>
+        <FullScreenCamera
+          setLoading={this.setLoading}
+          onPictureTaken={this.handlePictureTaken}
+        />
         {this.state.isLoading ? (
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" />
-            {/* <Text style={{ color: 'white', marginTop: 10 }}>Fetching...</Text> */}
           </View>
         ) : null}
       </View>
     );
   }
 
+  private setLoading(value: boolean) {
+    this.setState({ isLoading: value });
+  }
+
   private async handlePictureTaken(imageData: string) {
-    this.setState({ isLoading: true });
     // const artwork = await getArtworkByPicture('');
     const artwork = await getArtworkById(22);
     // fake 400ms load time
     await new Promise(resolve => setTimeout(resolve, 400));
-    this.setState({ isLoading: false });
+    this.setLoading(false);
     this.props.navigation.navigate('StoryModal', {
       artwork,
     });

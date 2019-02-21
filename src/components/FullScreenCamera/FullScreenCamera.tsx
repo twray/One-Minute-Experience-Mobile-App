@@ -5,12 +5,16 @@ import {
   TouchableOpacity,
   Platform,
   SafeAreaView,
-  Alert,
-  PlatformIOS,
   Dimensions,
 } from 'react-native';
 import { Camera, Permissions, CameraObject, ImageManipulator } from 'expo';
-import { string } from 'prop-types';
+
+import styles from './styles';
+
+const computeRatio = (ratioStr: string) => {
+  const [h, w] = ratioStr.split(':');
+  return parseFloat(h) / parseFloat(w);
+};
 
 interface CameraState {
   hasCameraPermission: boolean;
@@ -19,13 +23,14 @@ interface CameraState {
 }
 interface CameraProps {
   onPictureTaken: (imageData: string) => void;
+  setLoading: (value: boolean) => void;
 }
 
-export default class CameraView extends React.Component<
+export default class FullScreenCamera extends React.Component<
   CameraProps,
   CameraState
 > {
-  private camera: React.RefObject<CameraObject> = React.createRef();
+  private readonly camera: React.RefObject<CameraObject> = React.createRef();
 
   constructor(props: any) {
     super(props);
@@ -41,15 +46,7 @@ export default class CameraView extends React.Component<
 
   public async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-
     this.setState({ hasCameraPermission: status === 'granted' });
-    if (this.camera.current) {
-      // console.log(await this.camera.current.getAvailablePictureSizesAsync());
-
-      // console.log('failed');
-      return;
-    }
-    // console.log(await this.camera.current.getSupportedRatiosAsync());
   }
 
   public render() {
@@ -59,35 +56,19 @@ export default class CameraView extends React.Component<
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <Camera
-          style={{ flex: 1 }}
+          style={styles.camera}
           ref={this.camera as any}
           ratio={ratio}
           onCameraReady={this.prepareRatio}
         >
-          <SafeAreaView
-            style={{
-              flex: 1,
-              backgroundColor: 'transparent',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-            }}
-          >
+          <SafeAreaView style={styles.innerContainer}>
             <TouchableOpacity
               onPress={this.takePicture}
               disabled={takingPicture}
             >
-              <View
-                style={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: 40,
-                  borderWidth: 3,
-                  borderColor: 'white',
-                  marginBottom: 10,
-                }}
-              />
+              <View style={styles.cameraButton} />
             </TouchableOpacity>
           </SafeAreaView>
         </Camera>
@@ -100,22 +81,20 @@ export default class CameraView extends React.Component<
       const { width, height } = Dimensions.get('screen');
       const screenRatio = height / width;
       const ratios = await this.camera.current.getSupportedRatiosAsync();
-      const ratiosRatio = ratios.map((r) => {
-        const [h, w] = r.split(':');
-        return parseFloat(h) / parseFloat(w);
-      });
-      const ratioIndex = ratiosRatio.reduce((prev, curr, index) => {
-        return Math.abs(curr - screenRatio) <
-          Math.abs(ratiosRatio[prev] - screenRatio)
-          ? index
+      const ratio = ratios.reduce((prev, curr, index) => {
+        const currRatio = computeRatio(curr);
+        const prevRatio = computeRatio(prev);
+        return Math.abs(currRatio - screenRatio) <
+          Math.abs(prevRatio - screenRatio)
+          ? curr
           : prev;
       });
-      const ratio = ratios[ratioIndex];
       this.setState({ ratio });
     }
   }
 
   private async takePicture() {
+    this.props.setLoading(true);
     await this.setState({ takingPicture: true });
     // take a picture
     if (!this.camera.current) return;
@@ -132,12 +111,5 @@ export default class CameraView extends React.Component<
     );
     this.props.onPictureTaken(resizedImage.base64!);
     this.setState({ takingPicture: false });
-  }
-
-  private async getBestRatio() {
-    if (Platform.OS === 'ios' || !this.camera.current) return undefined;
-    const ratios = await this.camera.current.getSupportedRatiosAsync();
-    if (ratios.length === 0) return undefined;
-    return ratios[0];
   }
 }

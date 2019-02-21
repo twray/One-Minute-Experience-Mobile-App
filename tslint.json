@@ -12,6 +12,7 @@
       "check-format",
       "allow-pascal-case"
     ],
-    "import-name": false
+    "import-name": false,
+    "align": false
   }
 }

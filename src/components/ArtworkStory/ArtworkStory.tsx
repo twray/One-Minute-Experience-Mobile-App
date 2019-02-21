@@ -23,7 +23,7 @@ export default class ArtworkStory extends React.Component<
   ArtworkStoryProps,
   ArtworkStoryState
 > {
-  private carousel: React.RefObject<Carousel<IStorySegment>>;
+  private readonly carousel: React.RefObject<Carousel<IStorySegment>>;
 
   constructor(props: ArtworkStoryProps) {
     super(props);
@@ -70,7 +70,6 @@ export default class ArtworkStory extends React.Component<
               height: 10,
               borderRadius: 5,
               marginHorizontal: 10,
-              // backgroundColor: 'rgba(255, 255, 255, 0.9)',
             }}
             inactiveDotColor="rgba(255, 255, 255, 0.5)"
           />
@@ -142,7 +141,7 @@ export default class ArtworkStory extends React.Component<
     );
   }
 
-  private renderItem({ item, index }: { item: Segment; index: number }) {
+  private renderItem({ item }: { item: Segment; index: number }) {
     const { height } = Dimensions.get('screen');
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
