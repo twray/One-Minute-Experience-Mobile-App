@@ -6,6 +6,7 @@ import {
   Platform,
   SafeAreaView,
   Dimensions,
+  Image,
 } from 'react-native';
 import { Camera, Permissions, CameraObject, ImageManipulator } from 'expo';
 
@@ -22,7 +23,7 @@ interface CameraState {
   takingPicture: boolean;
 }
 interface CameraProps {
-  onPictureTaken: (imageData: string) => void;
+  onPictureTaken: (imageData: ImageManipulator.ImageResult) => void;
   setLoading: (value: boolean) => void;
 }
 
@@ -98,7 +99,7 @@ export default class FullScreenCamera extends React.Component<
     await this.setState({ takingPicture: true });
     // take a picture
     if (!this.camera.current) return;
-    const picture = await this.camera.current.takePictureAsync();
+    const picture = await this.camera.current.takePictureAsync({ base64: true });
     // resize and lower quality
     const resizedImage = await ImageManipulator.manipulateAsync(
       picture.uri,
@@ -109,7 +110,7 @@ export default class FullScreenCamera extends React.Component<
         base64: true,
       },
     );
-    this.props.onPictureTaken(resizedImage.base64!);
+    this.props.onPictureTaken(resizedImage);
     this.setState({ takingPicture: false });
   }
 }

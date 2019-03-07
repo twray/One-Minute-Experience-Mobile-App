@@ -85,6 +85,7 @@ export async function getArtworkByPicture(imageData: string) {
   return (await response.json()) as IArtwork;
 }
 
+
 export async function getArtworkById(id: number) {
   return mockArtworks[Math.floor(Math.random() * mockArtworks.length)];
   // if (id === 2) {
@@ -94,4 +95,8 @@ export async function getArtworkById(id: number) {
   //   return monaLisa;
   // }
   // return mockArtworks[0];
+}
+
+export async function getArtworkByData(data: string){
+
 }
