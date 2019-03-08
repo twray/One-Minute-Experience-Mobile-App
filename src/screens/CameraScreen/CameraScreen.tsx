@@ -69,18 +69,18 @@ export default class CameraScreen extends React.Component<
       headers: {
         Accept: 'application/json',
         'Content-Type': 'multipart/form-data',
-      }
+      },
     };
 
-    try{
+    try {
       const response = await fetch(fetchUrl, fetchData);
-      console.log(await response.status);
-    } catch(e) {
+    } catch (e) {
+      // tslint:disable-next-line:no-console
       console.error(e);
     }
 
     this.setLoading(false);
-    const artwork =  await getArtworkById(22);
+    const artwork = await getArtworkById(22);
     this.props.navigation.navigate('StoryModal', {
       artwork,
     });
