@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+import { ImageManipulator } from 'expo';
 
 import { getArtworkById } from '../../services/ArtworkService';
 import FullScreenCamera from '../../components/FullScreenCamera';
@@ -49,12 +50,37 @@ export default class CameraScreen extends React.Component<
     this.setState({ isLoading: value });
   }
 
-  private async handlePictureTaken(imageData: string) {
+  private async handlePictureTaken(imageData: ImageManipulator.ImageResult) {
     // const artwork = await getArtworkByPicture('');
-    const artwork = await getArtworkById(22);
-    // fake 400ms load time
-    await new Promise(resolve => setTimeout(resolve, 400));
+    const formBody = new FormData();
+    const uri = imageData.uri;
+    const uriParts = uri.split('.');
+    const fileType = uriParts[uriParts.length - 1];
+    formBody.append('file', {
+      uri: imageData.uri,
+      name: `image.${fileType}`,
+      type: `image/${fileType}`,
+    });
+
+    const fetchUrl = 'http://modgift.itu.dk:8080/api/artwork/rec';
+    const fetchData = {
+      method: 'POST',
+      body: formBody,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    try {
+      const response = await fetch(fetchUrl, fetchData);
+    } catch (e) {
+      // tslint:disable-next-line:no-console
+      console.error(e);
+    }
+
     this.setLoading(false);
+    const artwork = await getArtworkById(22);
     this.props.navigation.navigate('StoryModal', {
       artwork,
     });
