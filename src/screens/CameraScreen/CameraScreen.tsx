@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { View, ActivityIndicator, Text } from 'react-native';
+import { View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { ImageManipulator } from 'expo';
 
-import { getArtworkById } from '../../services/ArtworkService';
 import FullScreenCamera from '../../components/FullScreenCamera';
 import styles from './styles';
+import {
+  recognizeImage,
+  compressAndFormatImage,
+} from '../../services/ArtworkService';
 
 interface CameraScreenProps extends NavigationScreenProps {}
 
@@ -50,46 +53,27 @@ export default class CameraScreen extends React.Component<
     this.setState({ isLoading: value });
   }
 
-  private async handlePictureTaken(imageData: ImageManipulator.ImageResult) {
-    // const artwork = await getArtworkByPicture('');
-    const formBody = new FormData();
-    const uri = imageData.uri;
-    const uriParts = uri.split('.');
-    const fileType = uriParts[uriParts.length - 1];
-    formBody.append('file', {
-      uri: imageData.uri,
-      name: `image.${fileType}`,
-      type: `image/${fileType}`,
-    });
-
-    const fetchUrl = 'http://modgift.itu.dk:8080/api/artwork/rec';
-    const fetchData = {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-
+  private async handlePictureTaken(imageUri: string) {
     try {
-      const response = await fetch(fetchUrl, fetchData);
+      const image = await compressAndFormatImage(imageUri);
+      const { success, artwork } = await recognizeImage(image.uri);
+      if (success && artwork) {
+        if (!artwork.imageUrl) {
+          (artwork as any).imageUrl = `https://picsum.photos/900/1440?image=${Math.floor(
+            Math.random() * 300,
+          )}`;
+        }
+
+        this.props.navigation.navigate('StoryModal', {
+          artwork,
+        });
+      }
     } catch (e) {
       // tslint:disable-next-line:no-console
-      console.error(e);
+      // console.error(e);
+    } finally {
+      this.setLoading(false);
     }
-
-    this.setLoading(false);
-    const artwork = await getArtworkById(22);
-    this.props.navigation.navigate('StoryModal', {
-      artwork,
-    });
-  }
-
-  private async showStory() {
-    this.props.navigation.navigate('StoryModal', {
-      artwork: await getArtworkById(22),
-    });
   }
 
   private goToFavorites() {

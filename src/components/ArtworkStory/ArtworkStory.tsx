@@ -7,6 +7,7 @@ import {
   TouchableHighlightBase,
   Image,
   Animated,
+  ScrollView,
 } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
@@ -273,7 +274,13 @@ export default class ArtworkStory extends React.Component<
             width: '100%',
           }}
         >
-          <Text style={{ fontSize: 23, textAlign: 'center' }}>
+          <Text
+            style={{
+              fontSize: 23,
+              textAlign: 'center',
+              textTransform: 'uppercase',
+            }}
+          >
             <Text style={{ fontFamily: 'SFCompact-Medium' }}>
               {this.props.title}
             </Text>
@@ -310,15 +317,17 @@ export default class ArtworkStory extends React.Component<
           />
         </View>
         <View style={{ flex: 4, width: '90%' }}>
-          <Text
-            style={{
-              fontSize: 19,
-              textAlign: 'center',
-              fontFamily: 'SFCompact-Light',
-            }}
-          >
-            {segment.text}
-          </Text>
+          <ScrollView style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontSize: 19,
+                textAlign: 'center',
+                fontFamily: 'SFCompact-Light',
+              }}
+            >
+              {segment.text}
+            </Text>
+          </ScrollView>
         </View>
       </View>
     );
