@@ -9,7 +9,7 @@ export default StyleSheet.create({
   closeButtonContainer: {
     position: 'absolute',
     zIndex: 10,
-    top: 40 + Constants.statusBarHeight,
+    top: 5 + Constants.statusBarHeight,
     right: 20,
   },
 });

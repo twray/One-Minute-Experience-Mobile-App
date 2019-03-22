@@ -51,33 +51,33 @@ export default class CameraScreen extends React.Component<
   }
 
   private async handlePictureTaken(imageData: ImageManipulator.ImageResult) {
-    // const artwork = await getArtworkByPicture('');
-    const formBody = new FormData();
-    const uri = imageData.uri;
-    const uriParts = uri.split('.');
-    const fileType = uriParts[uriParts.length - 1];
-    formBody.append('file', {
-      uri: imageData.uri,
-      name: `image.${fileType}`,
-      type: `image/${fileType}`,
-    });
+    //const artwork = await getArtworkByPicture('');
+    // const formBody = new FormData();
+    // const uri = imageData.uri;
+    // const uriParts = uri.split('.');
+    // const fileType = uriParts[uriParts.length - 1];
+    // formBody.append('file', {
+    //   uri: imageData.uri,
+    //   name: `image.${fileType}`,
+    //   type: `image/${fileType}`,
+    // });
 
-    const fetchUrl = 'http://modgift.itu.dk:8080/api/artwork/rec';
-    const fetchData = {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
-    };
+    // const fetchUrl = 'http://modgift.itu.dk:8080/api/artwork/rec';
+    // const fetchData = {
+    //   method: 'POST',
+    //   body: formBody,
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'multipart/form-data',
+    //   },
+    // };
 
-    try {
-      const response = await fetch(fetchUrl, fetchData);
-    } catch (e) {
-      // tslint:disable-next-line:no-console
-      console.error(e);
-    }
+    // try {
+    //   const response = await fetch(fetchUrl, fetchData);
+    // } catch (e) {
+    //   // tslint:disable-next-line:no-console
+    //   console.error(e);
+    // }
 
     this.setLoading(false);
     const artwork = await getArtworkById(22);

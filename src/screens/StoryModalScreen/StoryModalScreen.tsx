@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+import { Ionicons, EvilIcons, AntDesign } from '@expo/vector-icons';
 
 import styles from './styles';
 import ArtworkStory from '../../components/ArtworkStory';
@@ -24,7 +25,7 @@ export default class StoryModalScreen extends React.Component<
         <ArtworkStory {...artwork} />
         <View style={styles.closeButtonContainer}>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Text style={{ fontSize: 30 }}>✖</Text>
+            <AntDesign name="close" color="#FCFCFC" size={30} />
           </TouchableOpacity>
         </View>
       </View>
