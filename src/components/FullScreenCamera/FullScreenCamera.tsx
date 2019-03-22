@@ -69,7 +69,9 @@ export default class FullScreenCamera extends React.Component<
               onPress={this.takePicture}
               disabled={takingPicture}
             >
-              <View style={styles.cameraButton} />
+              <View style={styles.outerCameraButton}>
+                <View style={styles.innerCameraButton} />
+              </View>
             </TouchableOpacity>
           </SafeAreaView>
         </Camera>
@@ -99,7 +101,9 @@ export default class FullScreenCamera extends React.Component<
     await this.setState({ takingPicture: true });
     // take a picture
     if (!this.camera.current) return;
-    const picture = await this.camera.current.takePictureAsync({ base64: true });
+    const picture = await this.camera.current.takePictureAsync({
+      base64: true,
+    });
     // resize and lower quality
     const resizedImage = await ImageManipulator.manipulateAsync(
       picture.uri,
