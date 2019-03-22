@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { View, Text, Dimensions, ImageBackground } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  ImageBackground,
+  TouchableHighlightBase,
+  Image,
+  Animated,
+} from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import StorySegment from './StorySegment';
@@ -9,6 +17,7 @@ interface ArtworkStoryProps extends IArtwork {}
 
 interface ArtworkStoryState {
   activeSegmentIndex: number;
+  backgroundOpacity: Animated.Value;
 }
 
 interface ArtworkFront {
@@ -29,9 +38,13 @@ export default class ArtworkStory extends React.Component<
     super(props);
     this.state = {
       activeSegmentIndex: 0,
+      backgroundOpacity: new Animated.Value(0),
     };
     this.carousel = React.createRef();
     this.renderItem = this.renderItem.bind(this);
+    this.renderHeading = this.renderHeading.bind(this);
+    this.getActiveDotColor = this.getActiveDotColor.bind(this);
+    this.getInactiveDotColor = this.getInactiveDotColor.bind(this);
   }
 
   public render() {
@@ -46,34 +59,125 @@ export default class ArtworkStory extends React.Component<
     ];
 
     return (
-      <View style={{ flex: 1 }}>
-        <ImageBackground
-          blurRadius={20}
-          resizeMode="cover"
-          source={{ uri: this.props.imageUrl }}
-          style={{ flex: 1 }}
+      <View style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
+        <Animated.View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            opacity: this.state.backgroundOpacity,
+          }}
         >
+          <ImageBackground
+            blurRadius={20}
+            resizeMode="cover"
+            source={{ uri: this.props.imageUrl }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
+          />
+        </Animated.View>
+        {/* </ImageBackground> */}
+
+        <View style={{ flex: 1, marginBottom: 100, marginTop: 100 }}>
           <Carousel
             data={segments}
             renderItem={this.renderItem}
             sliderWidth={width}
             itemWidth={width * 0.8}
             itemHeight={height}
-            onSnapToItem={index => this.setState({ activeSegmentIndex: index })}
+            onSnapToItem={(index: number) => {
+              this.setState({ activeSegmentIndex: index });
+              const opacity = index === 0 ? 0 : 1;
+              Animated.timing(this.state.backgroundOpacity, {
+                toValue: opacity,
+                duration: 200,
+              }).start();
+            }}
           />
           <Pagination
             dotsLength={segments.length}
             activeDotIndex={this.state.activeSegmentIndex}
-            dotColor="rgba(255, 255, 255, 0.9)"
+            dotColor={this.getActiveDotColor()}
             dotStyle={{
-              width: 10,
-              height: 10,
+              width: 11,
+              height: 11,
               borderRadius: 5,
-              marginHorizontal: 10,
+              marginHorizontal: 0,
             }}
-            inactiveDotColor="rgba(255, 255, 255, 0.5)"
+            inactiveDotOpacity={1.0}
+            inactiveDotScale={1.0}
+            inactiveDotColor={this.getInactiveDotColor()}
           />
-        </ImageBackground>
+        </View>
+      </View>
+    );
+  }
+
+  private renderHeading() {
+    return (
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            flex: 2,
+            marginTop: 35,
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            width: '100%',
+            padding: 10,
+          }}
+        >
+          <Text style={{ fontSize: 23, textAlign: 'center' }}>
+            <Text
+              style={{
+                fontFamily: 'SFCompact-Medium',
+                textTransform: 'uppercase',
+              }}
+            >
+              {this.props.title}
+            </Text>
+            <Text> </Text>
+            <Text
+              style={{
+                fontFamily: 'SFCompact-Light',
+              }}
+            >
+              {this.props.releaseYear}
+            </Text>
+          </Text>
+          <Text
+            style={{
+              marginTop: 10,
+              marginBottom: 15,
+              fontSize: 19,
+              fontFamily: 'SFCompact-Light',
+            }}
+          >
+            {this.props.artistName}, {this.props.artistNationality}
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            width: '100%',
+            alignItems: 'center',
+            marginTop: 20,
+          }}
+        >
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: 'black',
+              width: '33%',
+            }}
+          />
+        </View>
       </View>
     );
   }
@@ -81,29 +185,70 @@ export default class ArtworkStory extends React.Component<
   private renderFrontSegment() {
     return (
       <View style={{ flex: 1 }}>
-        <ImageBackground
-          source={{ uri: this.props.imageUrl }}
-          style={{ flex: 2 }}
-          resizeMode="cover"
-        />
+        {/* <View style={{ flex: 3 }}>{this.renderHeading()}</View> */}
+        <View
+          style={{
+            flex: 2,
+            marginTop: 35,
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            width: '100%',
+            padding: 10,
+          }}
+        >
+          <Text style={{ fontSize: 23, textAlign: 'center' }}>
+            <Text
+              style={{
+                fontFamily: 'SFCompact-Medium',
+                textTransform: 'uppercase',
+              }}
+            >
+              {this.props.title}
+            </Text>
+            <Text> </Text>
+            <Text
+              style={{
+                fontFamily: 'SFCompact-Light',
+              }}
+            >
+              {this.props.releaseYear}
+            </Text>
+          </Text>
+          <Text
+            style={{
+              marginTop: 10,
+              marginBottom: 15,
+              fontSize: 19,
+              fontFamily: 'SFCompact-Light',
+            }}
+          >
+            {this.props.artistName}, {this.props.artistNationality}
+          </Text>
+        </View>
         <View
           style={{
             flex: 1,
-            padding: 10,
-            justifyContent: 'space-around',
+            width: '100%',
             alignItems: 'center',
-            alignContent: 'center',
+            marginTop: 20,
           }}
         >
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontWeight: 'bold' }}>
-              {this.props.title}. {this.props.releaseYear}
-            </Text>
-            <Text style={{}}>
-              {this.props.artistName}, {this.props.artistNationality}
-            </Text>
-          </View>
-          <Text>Swipe to begin.</Text>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: 'black',
+              width: '33%',
+            }}
+          />
+        </View>
+        <View style={{ flex: 4, overflow: 'hidden' }}>
+          <Image
+            source={{ uri: this.props.imageUrl }}
+            style={{
+              flex: 1,
+              resizeMode: 'cover',
+            }}
+          />
         </View>
       </View>
     );
@@ -115,27 +260,65 @@ export default class ArtworkStory extends React.Component<
         style={{
           flex: 1,
           justifyContent: 'center',
-          padding: 20,
+          padding: 10,
           alignItems: 'center',
         }}
       >
         <View
           style={{
+            flex: 2,
+            marginTop: 35,
             alignItems: 'center',
-            width: '90%',
-            borderBottomWidth: 1,
-            borderBottomColor: '#888',
-            paddingBottom: 10,
+            justifyContent: 'flex-end',
+            width: '100%',
           }}
         >
-          <Text style={{ fontSize: 20 }}>
-            <Text style={{ fontWeight: 'bold' }}>{this.props.title}</Text>{' '}
-            {this.props.releaseYear}
+          <Text style={{ fontSize: 23, textAlign: 'center' }}>
+            <Text style={{ fontFamily: 'SFCompact-Medium' }}>
+              {this.props.title}
+            </Text>
+            <Text> </Text>
+            <Text style={{ fontFamily: 'SFCompact-Light' }}>
+              {this.props.releaseYear}
+            </Text>
           </Text>
-          <Text style={{ fontSize: 14 }}>By {this.props.artistName}</Text>
+          <Text
+            style={{
+              marginTop: 10,
+              marginBottom: 15,
+              fontSize: 19,
+              fontFamily: 'SFCompact-Light',
+            }}
+          >
+            {this.props.artistName}, {this.props.artistNationality}
+          </Text>
         </View>
-        <View style={{ marginTop: 80 }}>
-          <Text>{segment.text}</Text>
+        <View
+          style={{
+            flex: 1,
+            width: '100%',
+            alignItems: 'center',
+            marginTop: 20,
+          }}
+        >
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: 'black',
+              width: '33%',
+            }}
+          />
+        </View>
+        <View style={{ flex: 4, width: '90%' }}>
+          <Text
+            style={{
+              fontSize: 19,
+              textAlign: 'center',
+              fontFamily: 'SFCompact-Light',
+            }}
+          >
+            {segment.text}
+          </Text>
         </View>
       </View>
     );
@@ -158,5 +341,15 @@ export default class ArtworkStory extends React.Component<
         </View>
       </View>
     );
+  }
+
+  private getActiveDotColor(): string {
+    if (this.state.activeSegmentIndex === 0) return '#80A1C1';
+    return 'rgba(0, 0, 0, 0.7)';
+  }
+
+  private getInactiveDotColor(): string {
+    if (this.state.activeSegmentIndex === 0) return 'rgba(0, 0, 0, 0.7)';
+    return '#FCFCFC';
   }
 }

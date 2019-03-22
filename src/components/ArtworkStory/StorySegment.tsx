@@ -22,7 +22,7 @@ const StorySegment = (props: StorySegmentProps) => {
 const styles = StyleSheet.create({
   card: {
     minHeight: 400,
-    borderRadius: 5,
+    borderRadius: 10,
     backgroundColor: 'white',
     shadowOffset: { width: 0, height: 4 },
     shadowColor: 'black',
