@@ -45,9 +45,6 @@ export default class ArtworkStory extends React.Component<
     this.renderHeading = this.renderHeading.bind(this);
     this.getActiveDotColor = this.getActiveDotColor.bind(this);
     this.getInactiveDotColor = this.getInactiveDotColor.bind(this);
-    this.getOpacityOfBackgroundImage = this.getOpacityOfBackgroundImage.bind(
-      this,
-    );
   }
 
   public render() {
