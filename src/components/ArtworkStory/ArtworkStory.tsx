@@ -13,6 +13,8 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import StorySegment from './StorySegment';
 import { IArtwork, IStorySegment } from '../../services/ArtworkService';
+import StoryFrontSegment from './StoryFrontSegment';
+import styles from './styles';
 
 interface ArtworkStoryProps extends IArtwork {}
 
@@ -43,7 +45,6 @@ export default class ArtworkStory extends React.Component<
     };
     this.carousel = React.createRef();
     this.renderItem = this.renderItem.bind(this);
-    this.renderHeading = this.renderHeading.bind(this);
     this.getActiveDotColor = this.getActiveDotColor.bind(this);
     this.getInactiveDotColor = this.getInactiveDotColor.bind(this);
   }
@@ -75,18 +76,11 @@ export default class ArtworkStory extends React.Component<
             blurRadius={20}
             resizeMode="cover"
             source={{ uri: this.props.imageUrl }}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            }}
+            style={styles.ViewBoxContainer}
           />
         </Animated.View>
-        {/* </ImageBackground> */}
 
-        <View style={{ flex: 1, marginBottom: 100, marginTop: 100 }}>
+        <View style={styles.CarouselContainer}>
           <Carousel
             data={segments}
             renderItem={this.renderItem}
@@ -121,233 +115,18 @@ export default class ArtworkStory extends React.Component<
     );
   }
 
-  private renderHeading() {
-    return (
-      <View style={{ flex: 1 }}>
-        <View
-          style={{
-            flex: 2,
-            marginTop: 35,
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            width: '100%',
-            padding: 10,
-          }}
-        >
-          <Text style={{ fontSize: 23, textAlign: 'center' }}>
-            <Text
-              style={{
-                fontFamily: 'SFCompact-Medium',
-                textTransform: 'uppercase',
-              }}
-            >
-              {this.props.title}
-            </Text>
-            <Text> </Text>
-            <Text
-              style={{
-                fontFamily: 'SFCompact-Light',
-              }}
-            >
-              {this.props.releaseYear}
-            </Text>
-          </Text>
-          <Text
-            style={{
-              marginTop: 10,
-              marginBottom: 15,
-              fontSize: 19,
-              fontFamily: 'SFCompact-Light',
-            }}
-          >
-            {this.props.artistName}, {this.props.artistNationality}
-          </Text>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            alignItems: 'center',
-            marginTop: 20,
-          }}
-        >
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: 'black',
-              width: '33%',
-            }}
-          />
-        </View>
-      </View>
-    );
-  }
-
   private renderFrontSegment() {
-    return (
-      <View style={{ flex: 1 }}>
-        {/* <View style={{ flex: 3 }}>{this.renderHeading()}</View> */}
-        <View
-          style={{
-            flex: 2,
-            marginTop: 35,
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            width: '100%',
-            padding: 10,
-          }}
-        >
-          <Text style={{ fontSize: 23, textAlign: 'center' }}>
-            <Text
-              style={{
-                fontFamily: 'SFCompact-Medium',
-                textTransform: 'uppercase',
-              }}
-            >
-              {this.props.title}
-            </Text>
-            <Text> </Text>
-            <Text
-              style={{
-                fontFamily: 'SFCompact-Light',
-              }}
-            >
-              {this.props.releaseYear}
-            </Text>
-          </Text>
-          <Text
-            style={{
-              marginTop: 10,
-              marginBottom: 15,
-              fontSize: 19,
-              fontFamily: 'SFCompact-Light',
-            }}
-          >
-            {this.props.artistName}, {this.props.artistNationality}
-          </Text>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            alignItems: 'center',
-            marginTop: 20,
-          }}
-        >
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: 'black',
-              width: '33%',
-            }}
-          />
-        </View>
-        <View style={{ flex: 4, overflow: 'hidden' }}>
-          <Image
-            source={{ uri: this.props.imageUrl }}
-            style={{
-              flex: 1,
-              resizeMode: 'cover',
-            }}
-          />
-        </View>
-      </View>
-    );
-  }
-
-  private renderSegment(segment: IStorySegment) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          padding: 10,
-          alignItems: 'center',
-        }}
-      >
-        <View
-          style={{
-            flex: 2,
-            marginTop: 35,
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            width: '100%',
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 23,
-              textAlign: 'center',
-              textTransform: 'uppercase',
-            }}
-          >
-            <Text style={{ fontFamily: 'SFCompact-Medium' }}>
-              {this.props.title}
-            </Text>
-            <Text> </Text>
-            <Text style={{ fontFamily: 'SFCompact-Light' }}>
-              {this.props.releaseYear}
-            </Text>
-          </Text>
-          <Text
-            style={{
-              marginTop: 10,
-              marginBottom: 15,
-              fontSize: 19,
-              fontFamily: 'SFCompact-Light',
-            }}
-          >
-            {this.props.artistName}, {this.props.artistNationality}
-          </Text>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            alignItems: 'center',
-            marginTop: 20,
-          }}
-        >
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: 'black',
-              width: '33%',
-            }}
-          />
-        </View>
-        <View style={{ flex: 4, width: '90%' }}>
-          <ScrollView style={{ flex: 1 }}>
-            <Text
-              style={{
-                fontSize: 19,
-                textAlign: 'center',
-                fontFamily: 'SFCompact-Light',
-              }}
-            >
-              {segment.text}
-            </Text>
-          </ScrollView>
-        </View>
-      </View>
-    );
+    return <View />;
   }
 
   private renderItem({ item }: { item: Segment; index: number }) {
-    const { height } = Dimensions.get('screen');
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            minHeight: height * 0.6,
-            borderRadius: 5,
-          }}
-        >
-          {'type' in item
-            ? this.renderFrontSegment()
-            : this.renderSegment(item)}
-        </View>
+      <View style={{ flex: 1 }}>
+        {'type' in item ? (
+          <StoryFrontSegment artwork={this.props} />
+        ) : (
+          <StorySegment artwork={this.props} text={item.text} id={item.id} />
+        )}
       </View>
     );
   }

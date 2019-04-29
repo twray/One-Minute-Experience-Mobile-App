@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Constants } from 'expo';
 
 export default StyleSheet.create({
   container: {
@@ -12,5 +13,17 @@ export default StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  safeAreaView: {
+    position: 'absolute',
+    backgroundColor: '#e84118',
+    width: '100%',
+  },
+  safeText: {
+    color: 'white',
+    textAlign: 'center',
+    paddingTop: 10 + Constants.statusBarHeight,
+    padding: 10,
+    fontSize: 16,
   },
 });

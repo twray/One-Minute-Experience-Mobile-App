@@ -46,6 +46,11 @@ export default class CameraScreen extends React.Component<
       'connectionChange',
       this.handleConnectionChange,
     );
+
+    // tslint:disable-next-line: ter-arrow-parens
+    NetInfo.isConnected.fetch().then(e => {
+      this.handleConnectionChange(e);
+    });
   }
 
   public componentWillUnmount() {
@@ -63,21 +68,8 @@ export default class CameraScreen extends React.Component<
           onPictureTaken={this.handlePictureTaken}
         />
         {this.state.isOffline && (
-          <SafeAreaView
-            style={{
-              position: 'absolute',
-              backgroundColor: '#e84118',
-              width: '100%',
-            }}
-          >
-            <Text
-              style={{
-                color: 'white',
-                textAlign: 'center',
-                padding: 10,
-                fontSize: 16,
-              }}
-            >
+          <SafeAreaView style={styles.safeAreaView}>
+            <Text style={styles.safeText}>
               It appears like you are offline.
               {'\n'}
               Artworks might not be recognized.

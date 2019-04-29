@@ -44,7 +44,6 @@ export async function recognizeImage(
     name: 'image.jpeg',
     type: 'image/jpeg',
   });
-
   const response = await fetch(
     // 'http://43710c3b.ngrok.io/api/artwork/recognize',
     'http://modgift.itu.dk:8080/api/artwork/recognize',
@@ -57,7 +56,6 @@ export async function recognizeImage(
       },
     },
   );
-
   if (response.status !== 200) {
     return {
       success: false,

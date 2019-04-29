@@ -1,33 +1,31 @@
 import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 
 import { IStorySegment, IArtwork } from '../../services/ArtworkService';
+import styles from './styles';
+import GeneralStorySegment from './GeneralStorySegment';
 
 interface StorySegmentProps extends IStorySegment {
-  index: number;
-  imageUrl?: string;
   artwork: IArtwork;
 }
 
-const StorySegment = (props: StorySegmentProps) => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <View style={styles.card}>
-        {/* { props.index === 0 ? renderHeader() : null } */}
-      </View>
-    </View>
-  );
-};
+class StorySegment extends React.Component<StorySegmentProps, {}> {
+  constructor(props: StorySegmentProps) {
+    super(props);
+  }
 
-const styles = StyleSheet.create({
-  card: {
-    minHeight: 400,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    shadowOffset: { width: 0, height: 4 },
-    shadowColor: 'black',
-    elevation: 1,
-  },
-});
+  public render() {
+    const { artwork } = this.props;
+    return (
+      <GeneralStorySegment artwork={artwork}>
+        <View style={styles.TextWrapper}>
+          <ScrollView style={{ flex: 1 }}>
+            <Text style={styles.TextView}>{this.props.text}</Text>
+          </ScrollView>
+        </View>
+      </GeneralStorySegment>
+    );
+  }
+}
 
 export default StorySegment;
