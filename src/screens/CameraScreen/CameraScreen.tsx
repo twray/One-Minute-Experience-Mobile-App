@@ -5,6 +5,9 @@ import {
   Text,
   SafeAreaView,
   NetInfo,
+  Button,
+  Modal,
+  Alert,
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
@@ -14,12 +17,16 @@ import {
   recognizeImage,
   compressAndFormatImage,
 } from '../../services/ArtworkService';
+import { Constants } from 'expo';
+
+import DialogInput from '../../components/DialogInput';
 
 interface CameraScreenProps extends NavigationScreenProps {}
 
 interface CameraScreenState {
   isLoading: boolean;
   isOffline: boolean;
+  byIdDialog: boolean;
 }
 
 export default class CameraScreen extends React.Component<
@@ -34,10 +41,12 @@ export default class CameraScreen extends React.Component<
     super(props);
     this.handlePictureTaken = this.handlePictureTaken.bind(this);
     this.handleConnectionChange = this.handleConnectionChange.bind(this);
+    this.openSearchModal = this.openSearchModal.bind(this);
     this.setLoading = this.setLoading.bind(this);
     this.state = {
       isLoading: false,
       isOffline: true,
+      byIdDialog: false,
     };
   }
 
@@ -67,6 +76,26 @@ export default class CameraScreen extends React.Component<
           setLoading={this.setLoading}
           onPictureTaken={this.handlePictureTaken}
         />
+        <DialogInput
+          isDialogVisible={this.state.byIdDialog}
+          title="Open artwork by ID"
+          message="Write the artwork ID and press continue"
+          submitText="Continue"
+          closeDialog={() => this.setState({ byIdDialog: false })}
+          submitInput={input => this.searchById(input)}
+        />
+        <Modal animationType="fade" visible={false} onRequestClose={() => null}>
+          <View style={{}} />
+        </Modal>
+        <View
+          style={{
+            top: Constants.statusBarHeight + 1,
+            right: 10,
+            position: 'absolute',
+          }}
+        >
+          <Button title="By Id" onPress={this.openSearchModal} />
+        </View>
         {this.state.isOffline && (
           <SafeAreaView style={styles.safeAreaView}>
             <Text style={styles.safeText}>
@@ -83,6 +112,45 @@ export default class CameraScreen extends React.Component<
         ) : null}
       </View>
     );
+  }
+
+  private openSearchModal() {
+    this.setState({
+      byIdDialog: true,
+    });
+  }
+
+  private async searchById(input: string) {
+    await this.setState({
+      byIdDialog: false,
+    });
+    const id = parseInt(input, 10);
+    if (Number.isNaN(id)) {
+      return;
+    }
+
+    console.log(`got id ${id}`);
+
+    try {
+      const response = await fetch('http://modgift.itu.dk:8080/api/test');
+      const artworks = await response.json();
+      const artwork = artworks.find((a: any) => a.id === id);
+      console.log(`got artwork ${artwork ? artwork.title : 'none'}`);
+      if (!artwork) {
+        return;
+      }
+
+      this.props.navigation.navigate('StoryModal', {
+        artwork,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    await this.setState({
+      byIdDialog: false,
+    });
+    return;
   }
 
   private handleConnectionChange(isConnected: boolean) {
