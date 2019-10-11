@@ -28,10 +28,10 @@ const GeneralStorySegment = ({
             <Text style={styles.CardTextHeadingWrapper}>
               <Text style={styles.MediumText}>{artwork.title}</Text>
               <Text> </Text>
-              <Text style={styles.LightText}>{artwork.releaseYear}</Text>
+              <Text style={styles.LightText}>{artwork.year}</Text>
             </Text>
             <Text style={styles.NameAndNationality}>
-              {artwork.artistName}, {artwork.artistNationality}
+              {artwork.artist_name}, {artwork.artist_nationality}
             </Text>
           </View>
           <View style={styles.HrWrapper}>

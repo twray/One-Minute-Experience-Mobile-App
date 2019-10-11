@@ -16,6 +16,7 @@ import styles from './styles';
 import {
   recognizeImage,
   compressAndFormatImage,
+  getArtwork
 } from '../../services/ArtworkService';
 import { Constants } from 'expo';
 
@@ -132,29 +133,26 @@ export default class CameraScreen extends React.Component<
     }
 
     try {
-      const response = await fetch(`https://modgift.itu.dk/1mev2/_/items/artwork/${id}`);
-      const artwork = await response.json();
 
-      // temp
-      return;
+      const artwork = await getArtwork(id);
 
       if (artwork) {
         this.props.navigation.navigate('StoryModal', {
           artwork,
-        });;
+        });
       } else {
         return;
       }
 
+      await this.setState({
+        byIdDialog: false,
+      });
+
     } catch (error) {
-      console.error(error);
+
+      // TODO: Display error if unable to open artwork
+
     }
-
-    await this.setState({
-      byIdDialog: false,
-    });
-
-    return;
   }
 
   private handleConnectionChange(isConnected: boolean) {
@@ -183,8 +181,6 @@ export default class CameraScreen extends React.Component<
         });
       }
     } catch (e) {
-      // tslint:disable-next-line:no-console
-      // console.error(e);
     } finally {
       this.setLoading(false);
     }

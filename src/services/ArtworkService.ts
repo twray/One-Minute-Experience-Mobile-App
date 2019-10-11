@@ -11,10 +11,10 @@ export interface IStorySegment {
 export interface IArtwork {
   readonly id: number;
   readonly title: string;
-  readonly artistName: string;
-  readonly artistNationality: string;
-  readonly releaseYear: number;
-  readonly imageUrl: string;
+  readonly artist_name: string;
+  readonly artist_nationality: string;
+  readonly year: number;
+  readonly image_url: string;
   readonly stories: IStorySegment[];
 }
 
@@ -62,11 +62,46 @@ export async function recognizeImage(
     };
   }
   const x = await response.json();
-  // console.log(x);
 
   return {
     success: true,
     artwork: x,
   };
   // return (await response.json()) as IArtwork;
+}
+
+export async function getArtwork(id: number): IArtwork {
+
+  // TODO: Add Error Handling for Network Requests / Invalid ID
+  try {
+
+    const response = await fetch(getAPIEndpoint() + `items/artwork/${id}?fields=*,image.*`);
+    const result = await response.json();
+
+    const stories: IStorySegment[] = [
+      {id: 1, text: result.data.story_segment_1},
+      {id: 1, text: result.data.story_segment_2},
+      {id: 1, text: result.data.story_segment_3},
+      {id: 1, text: result.data.story_segment_4},
+      {id: 1, text: result.data.story_segment_5}
+    ];
+
+    const artwork: IArtwork = {
+      id: result.data.id,
+      title: result.data.title,
+      artist_name: result.data.artist_name,
+      artist_nationality: result.data.artist_nationality,
+      year: result.data.year,
+      image_url: result.data.image.data.full_url,
+      stories: stories
+    };
+
+    return artwork;
+
+  } catch(e) {
+
+    throw new Error('Unable to get artwork of ID: ' + id);
+
+  }
+
 }

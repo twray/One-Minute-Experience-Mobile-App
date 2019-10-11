@@ -23,16 +23,16 @@ class StoryFrontSegment extends React.Component<StorySegmentProps, {}> {
 
   public render() {
     const { artwork } = this.props;
+    console.log(this.props);
     return (
       <GeneralStorySegment artwork={artwork}>
         <View style={{ flex: 1 }}>
-          {/* <View style={{ flex: 1, backgroundColor: 'yellow' }} /> */}
           <Image
-            source={{ uri: artwork.imageUrl }}
+            source={{ uri: artwork.image_url }}
             style={{
               flex: 1,
               borderBottomLeftRadius: 5,
-              borderBottomRightRadius: 5,
+              borderBottomRightRadius: 5
             }}
           />
         </View>

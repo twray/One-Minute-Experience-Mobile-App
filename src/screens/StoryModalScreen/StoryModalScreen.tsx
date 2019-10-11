@@ -13,13 +13,14 @@ export default class StoryModalScreen extends React.Component<
   StoryModalScreenProps,
   {}
 > {
+
   constructor(props: StoryModalScreenProps) {
     super(props);
   }
 
   public render() {
     const artwork: IArtwork = this.props.navigation.getParam('artwork');
-    if (!artwork) return <View />;
+    if (!artwork) return <View />; // TODO: Fix this!
     return (
       <View style={styles.container}>
         <ArtworkStory {...artwork} />
@@ -31,4 +32,5 @@ export default class StoryModalScreen extends React.Component<
       </View>
     );
   }
+
 }

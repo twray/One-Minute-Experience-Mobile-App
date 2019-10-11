@@ -19,7 +19,10 @@ class StorySegment extends React.Component<StorySegmentProps, {}> {
     return (
       <GeneralStorySegment artwork={artwork}>
         <View style={styles.TextWrapper}>
-          <ScrollView style={{ flex: 1 }}>
+          <ScrollView
+            style={{ flex: 1 }}
+            alwaysBounceVertical={false}
+          >
             <Text style={styles.TextView}>{this.props.text}</Text>
           </ScrollView>
         </View>

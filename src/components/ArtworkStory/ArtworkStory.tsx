@@ -9,6 +9,7 @@ import {
   Animated,
   ScrollView,
 } from 'react-native';
+
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import StorySegment from './StorySegment';
@@ -25,7 +26,7 @@ interface ArtworkStoryState {
 
 interface ArtworkFront {
   type: 'ArtworkFront';
-  imageUrl: string;
+  image_url: string;
   title: string;
 }
 
@@ -35,6 +36,7 @@ export default class ArtworkStory extends React.Component<
   ArtworkStoryProps,
   ArtworkStoryState
 > {
+
   private readonly carousel: React.RefObject<Carousel<IStorySegment>>;
 
   constructor(props: ArtworkStoryProps) {
@@ -47,14 +49,16 @@ export default class ArtworkStory extends React.Component<
     this.renderItem = this.renderItem.bind(this);
     this.getActiveDotColor = this.getActiveDotColor.bind(this);
     this.getInactiveDotColor = this.getInactiveDotColor.bind(this);
+
   }
 
   public render() {
+
     const { width, height } = Dimensions.get('window');
     const segments: Segment[] = [
       {
         type: 'ArtworkFront',
-        imageUrl: this.props.imageUrl,
+        image_url: this.props.image_url,
         title: this.props.title,
       },
       ...this.props.stories,
@@ -63,19 +67,18 @@ export default class ArtworkStory extends React.Component<
     return (
       <View style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
         <Animated.View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            opacity: this.state.backgroundOpacity,
-          }}
-        >
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
+          >
           <ImageBackground
             blurRadius={20}
             resizeMode="cover"
-            source={{ uri: this.props.imageUrl }}
+            source={{ uri: this.props.image_url }}
             style={styles.ViewBoxContainer}
           />
         </Animated.View>
@@ -87,13 +90,16 @@ export default class ArtworkStory extends React.Component<
             sliderWidth={width}
             itemWidth={width * 0.8}
             itemHeight={height}
+            useScrollView={true}
             onSnapToItem={(index: number) => {
               this.setState({ activeSegmentIndex: index });
+              /*
               const opacity = index === 0 ? 0 : 1;
               Animated.timing(this.state.backgroundOpacity, {
                 toValue: opacity,
                 duration: 200,
               }).start();
+              */
             }}
           />
           <Pagination
@@ -113,10 +119,6 @@ export default class ArtworkStory extends React.Component<
         </View>
       </View>
     );
-  }
-
-  private renderFrontSegment() {
-    return <View />;
   }
 
   private renderItem({ item }: { item: Segment; index: number }) {
