@@ -78,9 +78,9 @@ export default class CameraScreen extends React.Component<
         />
         <DialogInput
           isDialogVisible={this.state.byIdDialog}
-          title="Open artwork by ID"
-          message="Write the artwork ID and press continue"
-          submitText="Continue"
+          title="Open Artwork by ID"
+          message="Write the ID of the Artwork"
+          submitText="Open Artwork"
           closeDialog={() => this.setState({ byIdDialog: false })}
           submitInput={input => this.searchById(input)}
         />
@@ -121,28 +121,31 @@ export default class CameraScreen extends React.Component<
   }
 
   private async searchById(input: string) {
+
     await this.setState({
       byIdDialog: false,
     });
+
     const id = parseInt(input, 10);
     if (Number.isNaN(id)) {
       return;
     }
 
-    console.log(`got id ${id}`);
-
     try {
-      const response = await fetch('http://modgift.itu.dk:8080/api/test');
-      const artworks = await response.json();
-      const artwork = artworks.find((a: any) => a.id === id);
-      console.log(`got artwork ${artwork ? artwork.title : 'none'}`);
-      if (!artwork) {
+      const response = await fetch(`https://modgift.itu.dk/1mev2/_/items/artwork/${id}`);
+      const artwork = await response.json();
+
+      // temp
+      return;
+
+      if (artwork) {
+        this.props.navigation.navigate('StoryModal', {
+          artwork,
+        });;
+      } else {
         return;
       }
 
-      this.props.navigation.navigate('StoryModal', {
-        artwork,
-      });
     } catch (error) {
       console.error(error);
     }
@@ -150,6 +153,7 @@ export default class CameraScreen extends React.Component<
     await this.setState({
       byIdDialog: false,
     });
+
     return;
   }
 
