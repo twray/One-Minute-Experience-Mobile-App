@@ -131,7 +131,6 @@ export default class ArtworkStory extends React.Component<
   }
 
   private getInactiveDotColor(): string {
-    if (this.state.activeSegmentIndex === 0) return 'rgba(0, 0, 0, 0.7)';
     return '#FCFCFC';
   }
 }
