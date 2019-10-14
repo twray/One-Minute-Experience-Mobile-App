@@ -93,13 +93,6 @@ export default class ArtworkStory extends React.Component<
             useScrollView={true}
             onSnapToItem={(index: number) => {
               this.setState({ activeSegmentIndex: index });
-              /*
-              const opacity = index === 0 ? 0 : 1;
-              Animated.timing(this.state.backgroundOpacity, {
-                toValue: opacity,
-                duration: 200,
-              }).start();
-              */
             }}
           />
           <Pagination
@@ -134,7 +127,6 @@ export default class ArtworkStory extends React.Component<
   }
 
   private getActiveDotColor(): string {
-    if (this.state.activeSegmentIndex === 0) return '#80A1C1';
     return 'rgba(0, 0, 0, 0.7)';
   }
 
