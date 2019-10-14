@@ -1,4 +1,4 @@
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 const APIEndpoints = {
   dev: 'https://modgift.itu.dk/1mev2/_/',

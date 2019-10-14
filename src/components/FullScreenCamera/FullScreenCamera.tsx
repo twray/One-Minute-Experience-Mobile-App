@@ -7,7 +7,8 @@ import {
   SafeAreaView,
   Dimensions,
 } from 'react-native';
-import { Camera, Permissions, CameraObject } from 'expo';
+import { Permissions, CameraObject } from 'expo';
+import { Camera } from 'expo-camera'
 
 import styles from './styles';
 

@@ -18,7 +18,7 @@ import {
   compressAndFormatImage,
   getArtwork
 } from '../../services/ArtworkService';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 import DialogInput from '../../components/DialogInput';
 
