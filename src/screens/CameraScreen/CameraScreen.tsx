@@ -44,9 +44,12 @@ export default class CameraScreen extends React.Component<
     this.handleConnectionChange = this.handleConnectionChange.bind(this);
     this.openSearchModal = this.openSearchModal.bind(this);
     this.setLoading = this.setLoading.bind(this);
+    this.setSafeAreaMessage = this.setSafeAreaMessage.bind(this);
+    this.unsetSafeAreaMessage = this.unsetSafeAreaMessage.bind(this);
     this.state = {
       isLoading: false,
       isOffline: true,
+      safeAreaMessage: '',
       byIdDialog: false,
     };
   }
@@ -97,15 +100,13 @@ export default class CameraScreen extends React.Component<
         >
           <Button title="By Id" onPress={this.openSearchModal} />
         </View>
-        {this.state.isOffline && (
+        {this.state.safeAreaMessage ? (
           <SafeAreaView style={styles.safeAreaView}>
             <Text style={styles.safeText}>
-              It appears like you are offline.
-              {'\n'}
-              Artworks might not be recognized.
+              {this.state.safeAreaMessage}
             </Text>
           </SafeAreaView>
-        )}
+        ) : null}
         {this.state.isLoading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" />
@@ -150,40 +151,67 @@ export default class CameraScreen extends React.Component<
 
     } catch (error) {
 
-      // TODO: Display error if unable to open artwork
+      console.error(error);
 
     }
   }
 
   private handleConnectionChange(isConnected: boolean) {
-    this.setState({
-      isOffline: !isConnected,
-    });
+    if (!isConnected) {
+      this.setSafeAreaMessage('It appears like you are offline.\nArtworks might not be recognized.');
+    } else if (isConnected) {
+      this.unsetSafeAreaMessage();
+    }
   }
 
   private setLoading(value: boolean) {
     this.setState({ isLoading: value });
   }
 
+  private setSafeAreaMessage(message: string) {
+    this.setState({ safeAreaMessage: message });
+  }
+
+  private unsetSafeAreaMessage() {
+    this.setState({ safeAreaMessage: '' });
+  }
+
   private async handlePictureTaken(imageUri: string) {
+
     try {
+
       const image = await compressAndFormatImage(imageUri);
-      const { success, artwork } = await recognizeImage(image.uri);
-      if (success && artwork) {
-        if (!artwork.imageUrl) {
-          (artwork as any).imageUrl = `https://picsum.photos/900/1440?image=${Math.floor(
-            Math.random() * 300,
-          )}`;
+      console.log('image has been compressed and formatted');
+
+      const { artworkRecognized, artwork } = await recognizeImage(image.uri);
+
+      if (artworkRecognized && artwork) {
+
+        if (this.state.safeAreaMessage) {
+          this.unsetSafeAreaMessage();
         }
 
         this.props.navigation.navigate('StoryModal', {
           artwork,
         });
+
+      } else if (!artworkRecognized) {
+
+        this.setSafeAreaMessage('We don\'t have a story for this artwork.\nPlease try another.');
+
       }
+
     } catch (e) {
+
+      this.setSafeAreaMessage('A problem occurred while recognising the artwork.\nPlease try again.');
+      return;
+
     } finally {
+
       this.setLoading(false);
+
     }
+
   }
 
   private goToFavorites() {

@@ -38,12 +38,21 @@ export async function compressAndFormatImage(imageUri: string) {
 export async function recognizeImage(
   imageUri: string,
 ): Promise<PredictionResult> {
+
+  console.log('recognising image: ');
+
   const formBody = new FormData();
   formBody.append('file', {
     uri: imageUri,
     name: 'image.jpeg',
     type: 'image/jpeg',
   });
+
+  return {
+    artworkRecognized: false
+  }
+
+  /*
   const response = await fetch(
     // 'http://43710c3b.ngrok.io/api/artwork/recognize',
     'http://modgift.itu.dk:8080/api/artwork/recognize',
@@ -56,6 +65,7 @@ export async function recognizeImage(
       },
     },
   );
+  console.log('response: ' + response);
   if (response.status !== 200) {
     return {
       success: false,
@@ -67,6 +77,7 @@ export async function recognizeImage(
     success: true,
     artwork: x,
   };
+  */
   // return (await response.json()) as IArtwork;
 }
 
