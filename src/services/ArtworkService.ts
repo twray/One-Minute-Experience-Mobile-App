@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import { getAPIEndpoint } from '../environment';
-import { ImageManipulator } from 'expo';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 export interface IStorySegment {
   readonly id: number;
