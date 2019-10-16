@@ -1,6 +1,9 @@
 /* tslint:disable */
 
-import { getAPIEndpoint } from '../environment';
+import {
+  getAPIEndpoint,
+  getCustomVisionKeys
+} from '../environment';
 import * as ImageManipulator from 'expo-image-manipulator';
 
 export interface IStorySegment {
@@ -48,6 +51,21 @@ export async function recognizeImage(
     type: 'image/jpeg',
   });
 
+  const customVisionKeys = getCustomVisionKeys();
+
+  // const url = `https://northeurope.api.cognitive.microsoft.com/customvision/v3.0/Prediction/6a61c57a-8da9-469a-a5a1-de1055543a42/classify/iterations/production/image`;
+  const url = `${customVisionKeys.endpoint}/customvision/v3.0/Prediction/${customVisionKeys.apiKey}/classify/iterations/${customVisionKeys.iteration}/image`;
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Prediction-Key': 'a267e2c8185241e4808534c70f96157f',
+      'Content-Type': 'application/octet-stream'
+    },
+    body: formBody
+  })
+    .then(response => response.json())
+    .then(result => console.log(result));
+
   return {
     artworkRecognized: false
   }
@@ -86,7 +104,7 @@ export async function getArtwork(id: number): IArtwork {
   // TODO: Add Error Handling for Network Requests / Invalid ID
   try {
 
-    const response = await fetch(getAPIEndpoint() + `items/artwork/${id}?fields=*,image.*`);
+    const response = await fetch(`${getAPIEndpoint().db}/items/artwork/${id}?fields=*,image.*`);
     const result = await response.json();
 
     const stories: IStorySegment[] = [
