@@ -185,9 +185,6 @@ export default class CameraScreen extends React.Component<
 
       const { artworkRecognized, artwork } = await recognizeImage(image.uri);
 
-      console.log(artworkRecognized);
-      console.log(artwork);
-
       if (artworkRecognized && artwork) {
 
         if (this.state.safeAreaMessage) {
