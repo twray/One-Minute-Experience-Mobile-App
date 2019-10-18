@@ -29,7 +29,7 @@ export interface PredictionResult {
 export async function compressAndFormatImage(imageUri: string) {
   return await ImageManipulator.manipulateAsync(
     imageUri,
-    [{ resize: { width: 1000 } }],
+    [{ resize: { width: 500 } }],
     {
       compress: 0.8,
       format: 'jpeg',
