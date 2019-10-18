@@ -53,84 +53,110 @@ export async function recognizeImage(
 
   const customVisionKeys = getCustomVisionKeys();
 
-  // const url = `https://northeurope.api.cognitive.microsoft.com/customvision/v3.0/Prediction/6a61c57a-8da9-469a-a5a1-de1055543a42/classify/iterations/production/image`;
-  const url = `${customVisionKeys.endpoint}/customvision/v3.0/Prediction/${customVisionKeys.apiKey}/classify/iterations/${customVisionKeys.iteration}/image`;
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Prediction-Key': 'a267e2c8185241e4808534c70f96157f',
-      'Content-Type': 'application/octet-stream'
-    },
-    body: formBody
-  })
-    .then(response => response.json())
-    .then(result => console.log(result));
+  const url = customVisionKeys.endpoint
+    + '/customvision/v3.0/Prediction/'
+    + customVisionKeys.projectKey
+    + '/classify/iterations/' + customVisionKeys.iteration + '/image';
 
-  return {
-    artworkRecognized: false
-  }
+  try {
 
-  /*
-  const response = await fetch(
-    // 'http://43710c3b.ngrok.io/api/artwork/recognize',
-    'http://modgift.itu.dk:8080/api/artwork/recognize',
-    {
+    const response = await fetch(url, {
       method: 'POST',
-      body: formBody,
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
+        'Prediction-Key': 'a267e2c8185241e4808534c70f96157f',
+        'Content-Type': 'application/octet-stream'
       },
-    },
-  );
-  console.log('response: ' + response);
-  if (response.status !== 200) {
-    return {
-      success: false,
-    };
-  }
-  const x = await response.json();
+      body: formBody
+    });
+    const result = await response.json();
 
-  return {
-    success: true,
-    artwork: x,
-  };
-  */
-  // return (await response.json()) as IArtwork;
+    const predictedResult = result.predictions && result.predictions[0];
+
+    if (predictedResult && predictedResult.probability > 0.5) {
+
+      return {
+        artworkRecognized: true,
+        artwork: await getArtworkByTagId(predictedResult.tagId)
+      }
+
+    } else {
+
+      return {
+        artworkRecognized: false
+      }
+
+    }
+
+  } catch (e) {
+
+    console.log('An error occurred while contacting the image recognition service.');
+    console.log(e);
+    throw e;
+
+  }
+
 }
 
-export async function getArtwork(id: number): IArtwork {
+export async function getArtworkById(id: number): IArtwork {
 
-  // TODO: Add Error Handling for Network Requests / Invalid ID
   try {
 
     const response = await fetch(`${getAPIEndpoint().db}/items/artwork/${id}?fields=*,image.*`);
     const result = await response.json();
 
-    const stories: IStorySegment[] = [
-      {id: 1, text: result.data.story_segment_1},
-      {id: 1, text: result.data.story_segment_2},
-      {id: 1, text: result.data.story_segment_3},
-      {id: 1, text: result.data.story_segment_4},
-      {id: 1, text: result.data.story_segment_5}
-    ];
-
-    const artwork: IArtwork = {
-      id: result.data.id,
-      title: result.data.title,
-      artist_name: result.data.artist_name,
-      artist_nationality: result.data.artist_nationality,
-      year: result.data.year,
-      image_url: result.data.image.data.full_url,
-      stories: stories
-    };
-
-    return artwork;
+    return processArtworkData(result.data);
 
   } catch(e) {
 
-    throw new Error('Unable to get artwork of ID: ' + id);
+    console.log('Unable to load artwork information');
+    console.log(e);
 
   }
+
+}
+
+async function getArtworkByTagId(tagId: string): IArtwork {
+
+  try {
+
+    const response = await fetch(`${getAPIEndpoint().db}/items/artwork?filter[image_recognition_tag_id]=${tagId}&fields=*,image.*`);
+    const result = await response.json();
+
+    if (result.data[0]) {
+      return processArtworkData(result.data[0]);
+    } else {
+      throw new Error(`Unable to  match Azure Tag ID: ${tagId} with artwork from the database.`);
+    }
+
+  } catch(e) {
+
+    console.log('Unable to load artwork information');
+    console.log(e);
+    throw e;
+  }
+
+}
+
+function processArtworkData(data): IArtwork {
+
+  const stories: IStorySegment[] = [
+    {id: 1, text: data.story_segment_1},
+    {id: 1, text: data.story_segment_2},
+    {id: 1, text: data.story_segment_3},
+    {id: 1, text: data.story_segment_4},
+    {id: 1, text: data.story_segment_5}
+  ];
+
+  const artwork: IArtwork = {
+    id: data.id,
+    title: data.title,
+    artist_name: data.artist_name,
+    artist_nationality: data.artist_nationality,
+    year: data.year,
+    image_url: data.image.data.full_url,
+    stories: stories
+  };
+
+  return artwork;
 
 }

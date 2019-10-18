@@ -16,7 +16,7 @@ import styles from './styles';
 import {
   recognizeImage,
   compressAndFormatImage,
-  getArtwork
+  getArtworkById
 } from '../../services/ArtworkService';
 import Constants from 'expo-constants';
 
@@ -135,7 +135,7 @@ export default class CameraScreen extends React.Component<
 
     try {
 
-      const artwork = await getArtwork(id);
+      const artwork = await getArtworkById(id);
 
       if (artwork) {
         this.props.navigation.navigate('StoryModal', {
@@ -184,6 +184,9 @@ export default class CameraScreen extends React.Component<
       console.log('image has been compressed and formatted');
 
       const { artworkRecognized, artwork } = await recognizeImage(image.uri);
+
+      console.log(artworkRecognized);
+      console.log(artwork);
 
       if (artworkRecognized && artwork) {
 
