@@ -204,6 +204,7 @@ export default class CameraScreen extends React.Component<
     } catch (e) {
 
       this.setSafeAreaMessage('A problem occurred while recognising the artwork.\nPlease try again.');
+      console.log(e);
       return;
 
     } finally {

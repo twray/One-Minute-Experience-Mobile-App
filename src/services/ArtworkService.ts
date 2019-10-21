@@ -2,7 +2,7 @@
 
 import {
   getAPIEndpoint,
-  getCustomVisionKeys
+  getKeys
 } from '../environment';
 import * as ImageManipulator from 'expo-image-manipulator';
 
@@ -51,7 +51,7 @@ export async function recognizeImage(
     type: 'image/jpeg',
   });
 
-  const customVisionKeys = getCustomVisionKeys();
+  const customVisionKeys = getKeys();
 
   const url = customVisionKeys.endpoint
     + '/customvision/v3.0/Prediction/'
@@ -101,7 +101,7 @@ export async function getArtworkById(id: number): IArtwork {
 
   try {
 
-    const response = await fetch(`${getAPIEndpoint().db}/items/artwork/${id}?fields=*,image.*`);
+    const response = await fetch(`${getAPIEndpoint().db}/items/${getKeys().collection}/${id}?fields=*,image.*`);
     const result = await response.json();
 
     return processArtworkData(result.data);
@@ -119,13 +119,13 @@ async function getArtworkByTagId(tagId: string): IArtwork {
 
   try {
 
-    const response = await fetch(`${getAPIEndpoint().db}/items/artwork?filter[image_recognition_tag_id]=${tagId}&fields=*,image.*`);
+    const response = await fetch(`${getAPIEndpoint().db}/items/${getKeys().collection}?filter[image_recognition_tag_id]=${tagId}&fields=*,image.*`);
     const result = await response.json();
 
     if (result.data[0]) {
       return processArtworkData(result.data[0]);
     } else {
-      throw new Error(`Unable to  match Azure Tag ID: ${tagId} with artwork from the database.`);
+      throw new Error(`Unable to match Azure Tag ID: ${tagId} with artwork from the database.`);
     }
 
   } catch(e) {
