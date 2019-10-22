@@ -38,16 +38,14 @@ export async function compressAndFormatImage(imageUri: string) {
   );
 }
 
-export async function recognizeImage(
-  imageUri: string,
-): Promise<PredictionResult> {
+export async function recognizeImage(image): Promise<PredictionResult> {
 
   console.log('recognising image: ');
 
   const formBody = new FormData();
   formBody.append('file', {
-    uri: imageUri,
-    name: 'image.jpeg',
+    uri: image.uri,
+    name: 'image',
     type: 'image/jpeg',
   });
 
@@ -64,7 +62,7 @@ export async function recognizeImage(
       method: 'POST',
       headers: {
         'Prediction-Key': 'a267e2c8185241e4808534c70f96157f',
-        'Content-Type': 'application/octet-stream'
+        'Content-Type': 'multipart/form-data'
       },
       body: formBody
     });
