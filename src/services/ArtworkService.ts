@@ -40,8 +40,6 @@ export async function compressAndFormatImage(imageUri: string) {
 
 export async function recognizeImage(image): Promise<PredictionResult> {
 
-  console.log('recognising image: ');
-
   const formBody = new FormData();
   formBody.append('file', {
     uri: image.uri,
@@ -70,27 +68,34 @@ export async function recognizeImage(image): Promise<PredictionResult> {
 
     const predictedResult = result.predictions && result.predictions[0];
 
-    if (predictedResult && predictedResult.probability > 0.5) {
+    if (predictedResult && predictedResult.probability > 0.8) {
 
-      return {
-        artworkRecognized: true,
-        artwork: await getArtworkByTagId(predictedResult.tagId)
+      const artwork = await getArtworkByTagId(predictedResult.tagId);
+
+      if (artwork) {
+
+        return {
+          artworkRecognized: true,
+          artwork
+        }
+
+      } else {
+        return {
+          artworkRecognized: false
+        }
       }
 
-    } else {
 
+    } else {
       return {
         artworkRecognized: false
       }
-
     }
 
   } catch (e) {
-
     console.log('An error occurred while contacting the image recognition service.');
     console.log(e);
     throw e;
-
   }
 
 }
@@ -123,7 +128,7 @@ async function getArtworkByTagId(tagId: string): IArtwork {
     if (result.data[0]) {
       return processArtworkData(result.data[0]);
     } else {
-      throw new Error(`Unable to match Azure Tag ID: ${tagId} with artwork from the database.`);
+      return null;
     }
 
   } catch(e) {

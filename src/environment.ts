@@ -33,5 +33,5 @@ export function getAPIEndpoint() {
 }
 
 export function getKeys() {
-  return DevelopmentKeys;
+  return ProductionKeys;
 }

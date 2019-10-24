@@ -181,7 +181,6 @@ export default class CameraScreen extends React.Component<
     try {
 
       const image = await compressAndFormatImage(imageUri);
-      console.log('image has been compressed and formatted');
 
       const { artworkRecognized, artwork } = await recognizeImage(image);
 
