@@ -91,15 +91,6 @@ export default class CameraScreen extends React.Component<
         <Modal animationType="fade" visible={false} onRequestClose={() => null}>
           <View style={{}} />
         </Modal>
-        <View
-          style={{
-            top: Constants.statusBarHeight + 1,
-            right: 10,
-            position: 'absolute',
-          }}
-        >
-          <Button title="By Id" onPress={this.openSearchModal} />
-        </View>
         {this.state.safeAreaMessage ? (
           <SafeAreaView style={styles.safeAreaView}>
             <Text style={styles.safeText}>

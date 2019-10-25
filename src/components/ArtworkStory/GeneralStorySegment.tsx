@@ -20,6 +20,16 @@ const GeneralStorySegment = ({
   artwork,
   children,
 }: GeneralStorySegmentProps) => {
+
+  let nameAndNationality = [];
+
+  if (artwork.artist_name) {
+    nameAndNationality.push(artwork.artist_name);
+  }
+  if (artwork.artist_nationality) {
+    nameAndNationality.push(artwork.artist_nationality);
+  }
+
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <View style={styles.Card}>
@@ -31,7 +41,7 @@ const GeneralStorySegment = ({
               <Text style={styles.LightText}>{artwork.year}</Text>
             </Text>
             <Text style={styles.NameAndNationality}>
-              {artwork.artist_name}, {artwork.artist_nationality}
+              {nameAndNationality.join(', ')}
             </Text>
           </View>
           <View style={styles.HrWrapper}>

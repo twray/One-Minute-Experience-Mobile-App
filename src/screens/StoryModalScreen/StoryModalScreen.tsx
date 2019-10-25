@@ -20,7 +20,6 @@ export default class StoryModalScreen extends React.Component<
 
   public render() {
     const artwork: IArtwork = this.props.navigation.getParam('artwork');
-    if (!artwork) return <View />; // TODO: Fix this!
     return (
       <View style={styles.container}>
         <ArtworkStory {...artwork} />

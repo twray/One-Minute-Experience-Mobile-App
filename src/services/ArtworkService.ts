@@ -68,28 +68,20 @@ export async function recognizeImage(image): Promise<PredictionResult> {
 
     const predictedResult = result.predictions && result.predictions[0];
 
-    if (predictedResult && predictedResult.probability > 0.8) {
+    if (predictedResult && predictedResult.probability > 0.7) {
 
       const artwork = await getArtworkByTagId(predictedResult.tagId);
 
       if (artwork) {
-
         return {
           artworkRecognized: true,
           artwork
         }
-
       } else {
-        return {
-          artworkRecognized: false
-        }
+        return { artworkRecognized: false }
       }
-
-
     } else {
-      return {
-        artworkRecognized: false
-      }
+      return { artworkRecognized: false }
     }
 
   } catch (e) {

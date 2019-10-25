@@ -1,26 +1,27 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
+import Constants from 'expo-constants';
 
 export default StyleSheet.create({
   Card: {
-    backgroundColor: 'white',
-    minHeight: Dimensions.get('screen').height * 0.6,
-    borderRadius: 5,
+    backgroundColor: '#FFFFFF',
+    height: Dimensions.get('screen').height - Constants.statusBarHeight - 100,
+    maxHeight: 500
   },
   CardContainer: {
     flex: 1,
     justifyContent: 'center',
-    padding: 10,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   CardHeader: {
     flex: 2,
     marginTop: 35,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    width: '100%',
+    width: '80%',
   },
   CardTextHeadingWrapper: {
-    fontSize: 23,
+    fontSize: 18,
+    lineHeight: 26,
     textAlign: 'center',
     textTransform: 'uppercase',
   },
@@ -29,7 +30,8 @@ export default StyleSheet.create({
   NameAndNationality: {
     marginTop: 10,
     marginBottom: 15,
-    fontSize: 19,
+    fontSize: 16,
+    lineHeight: 24,
     fontFamily: 'SFCompact-Light',
   },
   HrWrapper: {
@@ -40,20 +42,26 @@ export default StyleSheet.create({
   },
   Hr: {
     borderBottomWidth: 1,
-    borderBottomColor: 'black',
+    borderBottomColor: '#DDDDDD',
     width: '33%',
   },
-  TextWrapper: { flex: 4, width: '90%' },
+  TextWrapper: {
+    flex: 4, width: '80%'
+  },
   TextView: {
-    fontSize: 19,
+    fontSize: 18,
     textAlign: 'center',
     fontFamily: 'SFCompact-Light',
+    lineHeight: 28
   },
   ImageStyle: {
     flex: 1,
     resizeMode: 'cover',
   },
-  ImageView: { flex: 4, overflow: 'hidden' },
+  ImageView: {
+    flex: 4,
+    overflow: 'hidden'
+  },
   ViewBoxContainer: {
     position: 'absolute',
     top: 0,
@@ -61,5 +69,9 @@ export default StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-  CarouselContainer: { flex: 1, marginBottom: 100, marginTop: 100 },
+  CarouselContainer: {
+    flex: 1,
+    marginBottom: 30,
+    marginTop: 70 + Constants.statusBarHeight
+  },
 });

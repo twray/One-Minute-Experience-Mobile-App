@@ -1,13 +1,11 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import CameraScreen from './CameraScreen';
-import FavoritesScreen from './FavoritesScreen';
 import StoryModalScreen from './StoryModalScreen';
 
 const MainStack = createStackNavigator(
   {
-    Camera: { screen: CameraScreen },
-    Favorites: { screen: FavoritesScreen },
+    Camera: { screen: CameraScreen }
   },
   {
     initialRouteName: 'Camera',
