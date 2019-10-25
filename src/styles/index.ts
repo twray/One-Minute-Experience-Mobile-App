@@ -23,15 +23,6 @@ export default StyleSheet.create({
   scrollview: {
     flex: 1,
   },
-  exampleContainer: {
-    paddingVertical: 30,
-  },
-  exampleContainerDark: {
-    backgroundColor: colors.black,
-  },
-  exampleContainerLight: {
-    backgroundColor: 'white',
-  },
   title: {
     paddingHorizontal: 30,
     backgroundColor: 'transparent',

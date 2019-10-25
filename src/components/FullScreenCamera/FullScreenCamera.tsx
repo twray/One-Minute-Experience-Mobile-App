@@ -100,7 +100,6 @@ export default class FullScreenCamera extends React.Component<
   private async takePicture() {
     this.props.setLoading(true);
     await this.setState({ takingPicture: true });
-    // take a picture
     if (!this.camera.current) return;
     const picture = await this.camera.current.takePictureAsync({
       base64: true,

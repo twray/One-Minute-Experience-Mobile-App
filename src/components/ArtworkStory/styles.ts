@@ -1,11 +1,13 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 
+const { height } = Dimensions.get('screen');
+const { statusBarHeight } = Constants;
+
 export default StyleSheet.create({
   Card: {
     backgroundColor: '#FFFFFF',
-    height: Dimensions.get('screen').height - Constants.statusBarHeight - 100,
-    maxHeight: 500
+    height: Math.min(500, height - statusBarHeight - 100)
   },
   CardContainer: {
     flex: 1,
@@ -25,14 +27,29 @@ export default StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
   },
-  MediumText: { fontFamily: 'SFCompact-Medium' },
-  LightText: { fontFamily: 'SFCompact-Light' },
+  MediumText: {
+    fontFamily: 'SFCompact-Medium'
+  },
+  LightText: {
+    fontFamily: 'SFCompact-Light'
+  },
   NameAndNationality: {
     marginTop: 10,
     marginBottom: 15,
     fontSize: 16,
     lineHeight: 24,
     fontFamily: 'SFCompact-Light',
+  },
+  FullScreen: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  ArtworkStory: {
+    flex: 1,
+    backgroundColor: '#F4F4F4'
   },
   HrWrapper: {
     flex: 1,
@@ -45,8 +62,15 @@ export default StyleSheet.create({
     borderBottomColor: '#DDDDDD',
     width: '33%',
   },
+  PaginationDots: {
+    width: 11,
+    height: 11,
+    borderRadius: 5,
+    marginHorizontal: 0
+  },
   TextWrapper: {
-    flex: 4, width: '80%'
+    flex: 4,
+    width: '80%'
   },
   TextView: {
     fontSize: 18,
@@ -72,6 +96,6 @@ export default StyleSheet.create({
   CarouselContainer: {
     flex: 1,
     marginBottom: 30,
-    marginTop: 70 + Constants.statusBarHeight
+    marginTop: 70 + statusBarHeight
   },
 });

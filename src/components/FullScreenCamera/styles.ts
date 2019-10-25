@@ -24,8 +24,8 @@ export default StyleSheet.create({
     width: cameraButtonSize - 20,
     height: cameraButtonSize - 20,
     borderRadius: cameraButtonSize / 2,
-    borderWidth: 1,
-    borderColor: 'black',
+    borderWidth: 4,
+    borderColor: '#444444',
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
     margin: 10,
   },
@@ -35,6 +35,6 @@ export default StyleSheet.create({
     height: cameraButtonSize,
     borderRadius: cameraButtonSize / 2,
     backgroundColor: 'rgb(255, 255, 255)',
-    marginBottom: 10,
+    marginBottom: 20,
   },
 });

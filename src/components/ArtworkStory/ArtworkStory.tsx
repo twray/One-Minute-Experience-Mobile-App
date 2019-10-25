@@ -65,15 +65,9 @@ export default class ArtworkStory extends React.Component<
     ];
 
     return (
-      <View style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
+      <View style={styles.ArtworkStory}>
         <Animated.View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            }}
+            style={styles.FullScreen}
           >
           <ImageBackground
             blurRadius={20}
@@ -99,12 +93,7 @@ export default class ArtworkStory extends React.Component<
             dotsLength={segments.length}
             activeDotIndex={this.state.activeSegmentIndex}
             dotColor={this.getActiveDotColor()}
-            dotStyle={{
-              width: 11,
-              height: 11,
-              borderRadius: 5,
-              marginHorizontal: 0,
-            }}
+            dotStyle={styles.PaginationDots}
             inactiveDotOpacity={1.0}
             inactiveDotScale={1.0}
             inactiveDotColor={this.getInactiveDotColor()}

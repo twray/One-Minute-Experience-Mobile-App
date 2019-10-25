@@ -7,18 +7,17 @@ import {
   NetInfo,
   Button,
   Modal,
-  Alert,
+  Animated
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-
 import FullScreenCamera from '../../components/FullScreenCamera';
+import IntroCards from '../../components/IntroCards';
 import styles from './styles';
 import {
   recognizeImage,
   compressAndFormatImage,
   getArtworkById
 } from '../../services/ArtworkService';
-import Constants from 'expo-constants';
 
 import DialogInput from '../../components/DialogInput';
 
@@ -40,18 +39,20 @@ export default class CameraScreen extends React.Component<
 
   constructor(props: CameraScreenProps) {
     super(props);
+
     this.handlePictureTaken = this.handlePictureTaken.bind(this);
     this.handleConnectionChange = this.handleConnectionChange.bind(this);
-    this.openSearchModal = this.openSearchModal.bind(this);
     this.setLoading = this.setLoading.bind(this);
     this.setSafeAreaMessage = this.setSafeAreaMessage.bind(this);
     this.unsetSafeAreaMessage = this.unsetSafeAreaMessage.bind(this);
+
     this.state = {
       isLoading: false,
       isOffline: true,
       safeAreaMessage: '',
-      byIdDialog: false,
+      byIdDialog: false
     };
+
   }
 
   public componentDidMount() {
@@ -60,10 +61,10 @@ export default class CameraScreen extends React.Component<
       this.handleConnectionChange,
     );
 
-    // tslint:disable-next-line: ter-arrow-parens
     NetInfo.isConnected.fetch().then(e => {
       this.handleConnectionChange(e);
     });
+
   }
 
   public componentWillUnmount() {
@@ -80,14 +81,7 @@ export default class CameraScreen extends React.Component<
           setLoading={this.setLoading}
           onPictureTaken={this.handlePictureTaken}
         />
-        <DialogInput
-          isDialogVisible={this.state.byIdDialog}
-          title="Open Artwork by ID"
-          message="Write the ID of the Artwork"
-          submitText="Open Artwork"
-          closeDialog={() => this.setState({ byIdDialog: false })}
-          submitInput={input => this.searchById(input)}
-        />
+        <IntroCards />
         <Modal animationType="fade" visible={false} onRequestClose={() => null}>
           <View style={{}} />
         </Modal>
@@ -107,12 +101,6 @@ export default class CameraScreen extends React.Component<
     );
   }
 
-  private openSearchModal() {
-    this.setState({
-      byIdDialog: true,
-    });
-  }
-
   private async searchById(input: string) {
 
     await this.setState({
@@ -127,7 +115,6 @@ export default class CameraScreen extends React.Component<
     try {
 
       const artwork = await getArtworkById(id);
-
       if (artwork) {
         this.props.navigation.navigate('StoryModal', {
           artwork,
@@ -141,9 +128,7 @@ export default class CameraScreen extends React.Component<
       });
 
     } catch (error) {
-
       console.error(error);
-
     }
   }
 
@@ -172,7 +157,6 @@ export default class CameraScreen extends React.Component<
     try {
 
       const image = await compressAndFormatImage(imageUri);
-
       const { artworkRecognized, artwork } = await recognizeImage(image);
 
       if (artworkRecognized && artwork) {
@@ -186,21 +170,15 @@ export default class CameraScreen extends React.Component<
         });
 
       } else if (!artworkRecognized) {
-
         this.setSafeAreaMessage('We don\'t have a story for this artwork.\nPlease try another.');
-
       }
 
     } catch (e) {
-
       this.setSafeAreaMessage('A problem occurred while recognising the artwork.\nPlease try again.');
       console.log(e);
       return;
-
     } finally {
-
       this.setLoading(false);
-
     }
 
   }
