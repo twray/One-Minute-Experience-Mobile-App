@@ -6,7 +6,8 @@ const { statusBarHeight } = Constants;
 
 export default StyleSheet.create({
   Card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#EFE6E7',
+    borderRadius: 12,
     height: Math.min(500, height - statusBarHeight - 100)
   },
   CardContainer: {
@@ -39,6 +40,7 @@ export default StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     fontFamily: 'SFCompact-Light',
+    color: '#9A7049'
   },
   FullScreen: {
     position: 'absolute',
@@ -75,16 +77,22 @@ export default StyleSheet.create({
   TextView: {
     fontSize: 18,
     textAlign: 'center',
-    fontFamily: 'SFCompact-Light',
-    lineHeight: 28
+    fontFamily: 'SFCompact-Medium',
+    lineHeight: 28,
+    color: '#2B2D3C'
   },
   ImageStyle: {
     flex: 1,
     resizeMode: 'cover',
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12
   },
   ImageView: {
     flex: 4,
-    overflow: 'hidden'
+    width: "100%",
+    overflow: 'hidden',
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12
   },
   ViewBoxContainer: {
     position: 'absolute',

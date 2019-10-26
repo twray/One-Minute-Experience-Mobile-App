@@ -21,10 +21,11 @@ export default StyleSheet.create({
   },
   IntroCard: {
     height: Math.min(introCardHeight, height - statusBarHeight - 110),
-    backgroundColor: '#FFFFFF',
     padding: 30,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#EFE6E7',
+    borderRadius: 12
   },
   IntroCardTransparent: {
     height: Math.min(introCardHeight, height - statusBarHeight - 110),
@@ -47,9 +48,10 @@ export default StyleSheet.create({
   TextView: {
     fontSize: 18,
     textAlign: 'center',
-    fontFamily: 'SFCompact-Light',
+    fontFamily: 'SFCompact-Medium',
     lineHeight: 28,
-    marginBottom: 15
+    marginBottom: 15,
+    color: '#2B2D3C'
   },
   TextViewBold: {
     fontSize: 18,

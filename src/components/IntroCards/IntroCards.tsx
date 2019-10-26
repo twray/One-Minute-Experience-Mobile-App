@@ -23,7 +23,7 @@ interface IIntroSegment {
 
 const IntroSegments: IntroSegments[] = [
   {
-    text: 'This is a simple companion that offers short stories about objects in this museum.'
+    text: 'One Minute a simple companion that offers short stories about objects in this museum.'
   },
   {
     text: 'These stories are presented as bite-sized pieces, just like what you see here.'
@@ -32,8 +32,8 @@ const IntroSegments: IntroSegments[] = [
     text: 'They might tell you something interesting, or perhaps encourage you to look a little closer.'
   },
   {
-    text: 'Some of the objects in this museum have stories. Feel free to find them.',
-    bottom_text: 'Tap this button to scan an object and read its story.',
+    text: 'Some of the objects in this museum have stories.',
+    bottom_text: 'Scan an object to read its story.',
     transparent: true
   }
 ];
