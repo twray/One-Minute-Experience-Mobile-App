@@ -26,4 +26,10 @@ export default StyleSheet.create({
     padding: 10,
     fontSize: 16,
   },
+  helpButtonContainer: {
+    position: 'absolute',
+    zIndex: 10,
+    top: 20 + Constants.statusBarHeight,
+    right: 20,
+  },
 });

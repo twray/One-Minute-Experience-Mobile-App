@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import { Ionicons, EvilIcons, AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 import styles from './styles';
 import ArtworkStory from '../../components/ArtworkStory';

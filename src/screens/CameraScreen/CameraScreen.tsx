@@ -5,9 +5,11 @@ import {
   Text,
   SafeAreaView,
   NetInfo,
-  AsyncStorage
+  AsyncStorage,
+  TouchableOpacity
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+import { Entypo } from '@expo/vector-icons';
 import FullScreenCamera from '../../components/FullScreenCamera';
 import IntroCards from '../../components/IntroCards';
 import styles from './styles';
@@ -88,6 +90,11 @@ export default class CameraScreen extends React.Component<
           setLoading={this.setLoading}
           onPictureTaken={this.handlePictureTaken}
         />
+        <View style={styles.helpButtonContainer}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('InfoScreen')}>
+            <Entypo name="info-with-circle" color="#FCFCFC" size={30} />
+          </TouchableOpacity>
+        </View>
         {this.state.showTutorialScreen && <IntroCards />}
         {this.state.safeAreaMessage ? (
           <SafeAreaView style={styles.safeAreaView}>
