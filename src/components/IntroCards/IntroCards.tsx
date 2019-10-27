@@ -23,11 +23,11 @@ interface IntroSegment {
 const IntroSegments: IntroSegment[] = [ {
     text: 'One Minute a simple companion that offers short stories about objects in this museum.'
   }, {
-    text: 'These stories are presented as bite-sized pieces, just like what you see here.'
+    text: 'These stories are presented in bite-sized pieces, just like what you see here.'
   }, {
     text: 'They might tell you something interesting, or perhaps encourage you to look a little closer.'
   }, {
-    text: 'Tap the button to scan an object and read its story.',
+    text: 'Tap the button below to scan an object and read its story.',
     transparent: true
   }];
 

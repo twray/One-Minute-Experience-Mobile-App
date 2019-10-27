@@ -5,7 +5,7 @@ import {
   Text,
   SafeAreaView,
   NetInfo,
-  Modal
+  AsyncStorage
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import FullScreenCamera from '../../components/FullScreenCamera';
@@ -48,6 +48,17 @@ export default class CameraScreen extends React.Component<
       showTutorialScreen: true,
       safeAreaMessage: ''
     };
+
+  }
+
+  public async componentWillMount() {
+
+    const alreadyLaunched = await AsyncStorage.getItem('alreadyLaunched');
+    if (alreadyLaunched) {
+      this.setState({showTutorialScreen: false});
+    } else {
+      await AsyncStorage.setItem('alreadyLaunched', 'true');
+    }
 
   }
 
