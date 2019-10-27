@@ -5,9 +5,7 @@ import {
   Text,
   SafeAreaView,
   NetInfo,
-  Button,
-  Modal,
-  Animated
+  Modal
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import FullScreenCamera from '../../components/FullScreenCamera';
@@ -15,11 +13,8 @@ import IntroCards from '../../components/IntroCards';
 import styles from './styles';
 import {
   recognizeImage,
-  compressAndFormatImage,
-  getArtworkById
+  compressAndFormatImage
 } from '../../services/ArtworkService';
-
-import DialogInput from '../../components/DialogInput';
 
 interface CameraScreenProps extends NavigationScreenProps {}
 
@@ -27,6 +22,7 @@ interface CameraScreenState {
   isLoading: boolean;
   isOffline: boolean;
   byIdDialog: boolean;
+  safeAreaMessage: string;
 }
 
 export default class CameraScreen extends React.Component<
@@ -101,37 +97,6 @@ export default class CameraScreen extends React.Component<
     );
   }
 
-  private async searchById(input: string) {
-
-    await this.setState({
-      byIdDialog: false,
-    });
-
-    const id = parseInt(input, 10);
-    if (Number.isNaN(id)) {
-      return;
-    }
-
-    try {
-
-      const artwork = await getArtworkById(id);
-      if (artwork) {
-        this.props.navigation.navigate('StoryModal', {
-          artwork,
-        });
-      } else {
-        return;
-      }
-
-      await this.setState({
-        byIdDialog: false,
-      });
-
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   private handleConnectionChange(isConnected: boolean) {
     if (!isConnected) {
       this.setSafeAreaMessage('It appears like you are offline.\nArtworks might not be recognized.');
@@ -183,7 +148,4 @@ export default class CameraScreen extends React.Component<
 
   }
 
-  private goToFavorites() {
-    this.props.navigation.navigate('Favorites');
-  }
 }

@@ -21,24 +21,65 @@ export interface IArtwork {
   readonly stories: IStorySegment[];
 }
 
+export interface IArtworkAPIResultData {
+  readonly id: number;
+  readonly title: string;
+  readonly artist_name: string;
+  readonly artist_nationality: string;
+  readonly year: number;
+  readonly story_segment_1: string;
+  readonly story_segment_2: string;
+  readonly story_segment_3: string;
+  readonly story_segment_4: string;
+  readonly story_segment_5: string;
+  readonly image: IArtworkAPIResultDataImage;
+}
+
+export interface IArtworkAPIResultDataImage {
+  readonly id: number;
+  readonly filename: string;
+  readonly data: IArtworkAPIResultDataImageData;
+}
+
+export interface IArtworkAPIResultDataImageData {
+  readonly full_url: string;
+  readonly url: string;
+  readonly thumbnails: IArtworkAPIResultDataImageThumbnail[]
+}
+
+export interface IArtworkAPIResultDataImageThumbnail {
+  readonly url: string;
+  readonly relative_url: string;
+  readonly dimension: string;
+  readonly width: number;
+  readonly height: number;
+}
+
 export interface PredictionResult {
-  success: boolean;
+  artworkRecognized: boolean;
   artwork?: IArtwork;
 }
 
-export async function compressAndFormatImage(imageUri: string) {
+export interface ImageMeta {
+  uri: string,
+  width: number,
+  height: number,
+  base64?: string
+}
+
+export async function compressAndFormatImage(imageUri: string): Promise<ImageMeta> {
   return await ImageManipulator.manipulateAsync(
     imageUri,
     [{ resize: { width: 500 } }],
     {
       compress: 0.8,
-      format: 'jpeg',
+      format: ImageManipulator.SaveFormat.JPEG,
       base64: false,
     },
   );
 }
 
-export async function recognizeImage(image): Promise<PredictionResult> {
+export async function recognizeImage(image: ImageMeta): Promise<PredictionResult> {
 
   const formBody = new FormData();
   formBody.append('file', {
@@ -92,25 +133,7 @@ export async function recognizeImage(image): Promise<PredictionResult> {
 
 }
 
-export async function getArtworkById(id: number): IArtwork {
-
-  try {
-
-    const response = await fetch(`${getAPIEndpoint().db}/items/${getKeys().collection}/${id}?fields=*,image.*`);
-    const result = await response.json();
-
-    return processArtworkData(result.data);
-
-  } catch(e) {
-
-    console.log('Unable to load artwork information');
-    console.log(e);
-
-  }
-
-}
-
-async function getArtworkByTagId(tagId: string): IArtwork {
+async function getArtworkByTagId(tagId: string): Promise<IArtwork> {
 
   try {
 
@@ -118,9 +141,9 @@ async function getArtworkByTagId(tagId: string): IArtwork {
     const result = await response.json();
 
     if (result.data[0]) {
-      return processArtworkData(result.data[0]);
+      return Promise.resolve(processArtworkData(result.data[0]));
     } else {
-      return null;
+      return Promise.reject();
     }
 
   } catch(e) {
@@ -132,7 +155,7 @@ async function getArtworkByTagId(tagId: string): IArtwork {
 
 }
 
-function processArtworkData(data): IArtwork {
+function processArtworkData(data: IArtworkAPIResultData): IArtwork {
 
   const stories: IStorySegment[] = [
     {id: 1, text: data.story_segment_1},
