@@ -13,8 +13,7 @@ import IntroCards from '../../components/IntroCards';
 import styles from './styles';
 import {
   recognizeImage,
-  compressAndFormatImage,
-  getArtworkByTagId
+  compressAndFormatImage
 } from '../../services/ArtworkService';
 
 interface CameraScreenProps extends NavigationScreenProps {}
@@ -22,8 +21,8 @@ interface CameraScreenProps extends NavigationScreenProps {}
 interface CameraScreenState {
   isLoading: boolean;
   isOffline: boolean;
-  byIdDialog: boolean;
   safeAreaMessage: string;
+  showTutorialScreen: boolean;
 }
 
 export default class CameraScreen extends React.Component<
@@ -46,8 +45,8 @@ export default class CameraScreen extends React.Component<
     this.state = {
       isLoading: false,
       isOffline: true,
-      safeAreaMessage: '',
-      byIdDialog: false
+      showTutorialScreen: true,
+      safeAreaMessage: ''
     };
 
   }
@@ -78,10 +77,7 @@ export default class CameraScreen extends React.Component<
           setLoading={this.setLoading}
           onPictureTaken={this.handlePictureTaken}
         />
-        <IntroCards />
-        <Modal animationType="fade" visible={false} onRequestClose={() => null}>
-          <View style={{}} />
-        </Modal>
+        {this.state.showTutorialScreen && <IntroCards />}
         {this.state.safeAreaMessage ? (
           <SafeAreaView style={styles.safeAreaView}>
             <Text style={styles.safeText}>
@@ -131,6 +127,7 @@ export default class CameraScreen extends React.Component<
           this.unsetSafeAreaMessage();
         }
 
+        this.setState({showTutorialScreen: false});
         this.props.navigation.navigate('StoryModal', {
           artwork,
         });

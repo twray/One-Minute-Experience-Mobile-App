@@ -13,14 +13,14 @@ export default StyleSheet.create({
   IntroCardsContainer: {
     position: 'absolute',
     width: '100%',
-    height: '100%',
+    top: ((height - introCardHeight) / 2),
+    height: introCardHeight,
     justifyContent: 'center',
     alignItems: 'center'
   },
   CarouselContainer: {
     width: '100%',
-    height: '100%',
-    paddingBottom: 120,
+    height: '100%'
   },
   IntroCardContainer: {
     height: '100%',

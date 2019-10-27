@@ -27,8 +27,7 @@ const IntroSegments: IntroSegment[] = [ {
   }, {
     text: 'They might tell you something interesting, or perhaps encourage you to look a little closer.'
   }, {
-    text: 'Some of the objects in this museum have stories.',
-    bottom_text: 'Scan an object to read its story.',
+    text: 'Tap the button to scan an object and read its story.',
     transparent: true
   }];
 
@@ -39,7 +38,7 @@ export default class IntroCards extends React.Component {
     const statusBarOffset = Platform.OS === "android" ? {paddingTop: Constants.statusBarHeight} : {}
     return (
       <SafeAreaView style={styles.IntroCardsContainer}>
-        <View style={[styles.CarouselContainer, statusBarOffset]}>
+        <View style={styles.CarouselContainer}>
           <Carousel
             data={IntroSegments}
             renderItem={({item}) => <IntroCard {...item} />}
