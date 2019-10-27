@@ -10,7 +10,7 @@ import {
 import Carousel from 'react-native-snap-carousel';
 import Constants from 'expo-constants';
 
-import styles, { introCardHeight } from './styles';
+import styles from './styles';
 
 interface IntroSegment {
   readonly text?: string;
@@ -35,7 +35,7 @@ const IntroSegments: IntroSegment[] = [ {
 export default class IntroCards extends React.Component {
 
   render() {
-    const { width, height } = Dimensions.get('window');
+    const { width } = Dimensions.get('window');
     const statusBarOffset = Platform.OS === "android" ? {paddingTop: Constants.statusBarHeight} : {}
     return (
       <SafeAreaView style={styles.IntroCardsContainer}>
