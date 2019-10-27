@@ -13,7 +13,8 @@ import IntroCards from '../../components/IntroCards';
 import styles from './styles';
 import {
   recognizeImage,
-  compressAndFormatImage
+  compressAndFormatImage,
+  getArtworkByTagId
 } from '../../services/ArtworkService';
 
 interface CameraScreenProps extends NavigationScreenProps {}

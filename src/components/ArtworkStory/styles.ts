@@ -8,7 +8,7 @@ export default StyleSheet.create({
   Card: {
     backgroundColor: '#EFE6E7',
     borderRadius: 12,
-    height: Math.min(500, height - statusBarHeight - 100)
+    height: Math.min(500, height - statusBarHeight - 200)
   },
   CardContainer: {
     flex: 1,
@@ -19,7 +19,7 @@ export default StyleSheet.create({
     flex: 2,
     marginTop: 35,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     width: '80%',
   },
   CardTextHeadingWrapper: {
@@ -56,8 +56,7 @@ export default StyleSheet.create({
   HrWrapper: {
     flex: 1,
     width: '100%',
-    alignItems: 'center',
-    marginTop: 20,
+    alignItems: 'center'
   },
   Hr: {
     borderBottomWidth: 1,
@@ -71,7 +70,7 @@ export default StyleSheet.create({
     marginHorizontal: 0
   },
   TextWrapper: {
-    flex: 4,
+    flex: 5,
     width: '80%'
   },
   TextView: {
@@ -88,7 +87,7 @@ export default StyleSheet.create({
     borderBottomRightRadius: 12
   },
   ImageView: {
-    flex: 4,
+    flex: 5,
     width: "100%",
     overflow: 'hidden',
     borderBottomLeftRadius: 12,

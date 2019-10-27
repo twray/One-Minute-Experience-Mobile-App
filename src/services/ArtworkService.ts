@@ -134,7 +134,7 @@ export async function recognizeImage(image: ImageMeta): Promise<PredictionResult
 
 }
 
-async function getArtworkByTagId(tagId: string): Promise<IArtwork> {
+export async function getArtworkByTagId(tagId: string): Promise<IArtwork> {
 
   try {
 
