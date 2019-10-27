@@ -18,6 +18,7 @@ export interface IArtwork {
   readonly artist_nationality: string;
   readonly year: number;
   readonly image_url: string;
+  readonly thumbnail_url: string;
   readonly stories: IStorySegment[];
 }
 
@@ -166,7 +167,8 @@ function processArtworkData(data: IArtworkAPIResultData): IArtwork {
   ];
 
   const imageQuality: string = 'good';
-  const thumbnailPath: string = `${getAPIEndpoint().root}/thumbnail/_/1024/1024/contain/${imageQuality}/${data.image.filename}`;
+  const imagePath: string = `${getAPIEndpoint().root}/thumbnail/_/1024/1024/contain/${imageQuality}/${data.image.filename}`;
+  const thumbnailPath: string = `${getAPIEndpoint().root}/thumbnail/_/200/200/contain/${imageQuality}/${data.image.filename}`;
 
   const artwork: IArtwork = {
     id: data.id,
@@ -174,7 +176,8 @@ function processArtworkData(data: IArtworkAPIResultData): IArtwork {
     artist_name: data.artist_name,
     artist_nationality: data.artist_nationality,
     year: data.year,
-    image_url: thumbnailPath,
+    image_url: imagePath,
+    thumbnail_url: thumbnailPath,
     stories: stories
   };
 

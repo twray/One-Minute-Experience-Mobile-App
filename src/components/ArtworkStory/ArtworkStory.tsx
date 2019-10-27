@@ -68,7 +68,7 @@ export default class ArtworkStory extends React.Component<
           <ImageBackground
             blurRadius={20}
             resizeMode="cover"
-            source={{ uri: this.props.image_url, cache: 'reload' }}
+            source={{ uri: this.props.thumbnail_url, cache: 'reload' }}
             style={styles.ViewBoxContainer}
           />
         </Animated.View>
