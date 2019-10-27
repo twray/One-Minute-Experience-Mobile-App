@@ -2,25 +2,34 @@ import {
   StyleSheet,
   Dimensions
 } from 'react-native';
-
 import Constants from 'expo-constants';
 
 const { width, height } = Dimensions.get('screen');
 const { statusBarHeight } = Constants;
+
 export const introCardHeight = 320;
 
 export default StyleSheet.create({
   IntroCardsContainer: {
     position: 'absolute',
-    width: width,
-    top: (height - introCardHeight) / 2,
-    height: height - ((height - introCardHeight) / 2) - 110
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  CarouselContainer: {
+    width: '100%',
+    height: '100%',
+    paddingBottom: 120,
   },
   IntroCardContainer: {
-    height: height - ((height - introCardHeight) / 2) - 110
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
   IntroCard: {
-    height: Math.min(introCardHeight, height - statusBarHeight - 110),
+    height: introCardHeight,
     padding: 30,
     justifyContent: 'center',
     alignItems: 'center',
@@ -28,7 +37,7 @@ export default StyleSheet.create({
     borderRadius: 12
   },
   IntroCardTransparent: {
-    height: Math.min(introCardHeight, height - statusBarHeight - 110),
+    height: introCardHeight,
     padding: 30,
     justifyContent: 'center',
     alignItems: 'center',
@@ -37,8 +46,10 @@ export default StyleSheet.create({
     borderStyle: 'dashed'
   },
   BottomTextContainer: {
-    flex: 1,
-    flexDirection: 'column-reverse'
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'column-reverse',
+    width: '100%'
   },
   Icon: {
     width: 90,
