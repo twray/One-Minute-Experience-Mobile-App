@@ -1,13 +1,9 @@
 import * as React from 'react';
 import {
   View,
-  Text,
   Dimensions,
   ImageBackground,
-  TouchableHighlightBase,
-  Image,
   Animated,
-  ScrollView,
 } from 'react-native';
 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -72,7 +68,7 @@ export default class ArtworkStory extends React.Component<
           <ImageBackground
             blurRadius={20}
             resizeMode="cover"
-            source={{ uri: this.props.image_url }}
+            source={{ uri: this.props.image_url, cache: 'reload' }}
             style={styles.ViewBoxContainer}
           />
         </Animated.View>

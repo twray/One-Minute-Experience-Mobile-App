@@ -1,14 +1,10 @@
 import * as React from 'react';
 import {
   View,
-  Text,
-  Image,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
+  Image
 } from 'react-native';
 
-import { IStorySegment, IArtwork } from '../../services/ArtworkService';
+import { IArtwork } from '../../services/ArtworkService';
 import styles from './styles';
 import GeneralStorySegment from './GeneralStorySegment';
 
@@ -27,7 +23,7 @@ class StoryFrontSegment extends React.Component<StorySegmentProps, {}> {
       <GeneralStorySegment artwork={artwork}>
         <View style={styles.ImageView}>
           <Image
-            source={{ uri: artwork.image_url }}
+            source={{ uri: artwork.image_url, cache: 'reload' }}
             style={{ flex: 1 }}
           />
         </View>

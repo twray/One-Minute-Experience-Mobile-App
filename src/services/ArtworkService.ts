@@ -165,13 +165,16 @@ function processArtworkData(data: IArtworkAPIResultData): IArtwork {
     {id: 1, text: data.story_segment_5}
   ];
 
+  const imageQuality: string = 'good';
+  const thumbnailPath: string = `${getAPIEndpoint().root}/thumbnail/_/1024/1024/contain/${imageQuality}/${data.image.filename}`;
+
   const artwork: IArtwork = {
     id: data.id,
     title: data.title,
     artist_name: data.artist_name,
     artist_nationality: data.artist_nationality,
     year: data.year,
-    image_url: data.image.data.full_url,
+    image_url: thumbnailPath,
     stories: stories
   };
 

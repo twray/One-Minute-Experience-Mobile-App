@@ -2,9 +2,11 @@ import Constants from 'expo-constants';
 
 const APIEndpoints = {
   dev: {
+    root: 'https://modgift.itu.dk/1mev2',
     db: 'https://modgift.itu.dk/1mev2/_'
   },
   prod: {
+    root: 'https://modgift.itu.dk/1mev2',
     db: 'https://modgift.itu.dk/1mev2/_'
   }
 };
