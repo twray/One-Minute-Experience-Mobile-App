@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "One Minute",
+    "name": "One Minute Experience",
     "slug": "one-minute",
     "sdkVersion": "33.0.0",
     "platforms": ["ios", "android"],
@@ -17,10 +17,13 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "dk.itu.ome"
+      "bundleIdentifier": "dk.itu.oneminute",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to identify the artworks you see in the museum."
+      }
     },
     "android": {
-      "package": "dk.itu.ome"
+      "package": "dk.itu.oneminute"
     }
   }
 }
