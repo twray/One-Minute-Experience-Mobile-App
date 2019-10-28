@@ -84,40 +84,9 @@ export default class CameraScreen extends React.Component<
     );
   }
 
-  public render() {
-    return (
-      <View style={styles.container}>
-        {!this.state.isOffline &&
-          <FullScreenCamera
-            setLoading={this.setLoading}
-            onPictureTaken={this.handlePictureTaken}
-          />
-        }
-        <View style={styles.helpButtonContainer}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('InfoScreen')}>
-            <Entypo name="info-with-circle" color="#FCFCFC" size={30} />
-          </TouchableOpacity>
-        </View>
-        {this.state.showTutorialScreen && <IntroCards />}
-        {this.state.safeAreaMessage ? (
-          <SafeAreaView style={styles.safeAreaView}>
-            <Text style={styles.safeText}>
-              {this.state.safeAreaMessage}
-            </Text>
-          </SafeAreaView>
-        ) : null}
-        {this.state.isLoading ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" />
-          </View>
-        ) : null}
-      </View>
-    );
-  }
-
   private handleConnectionChange(isConnected: boolean) {
     if (!isConnected) {
-      this.setSafeAreaMessage('This app requires an internet connection to work.');
+      this.setSafeAreaMessage('This app requires an internet connection.');
     } else if (isConnected) {
       this.unsetSafeAreaMessage();
     }
@@ -165,6 +134,37 @@ export default class CameraScreen extends React.Component<
     } finally {
       this.setLoading(false);
     }
+  }
+
+  public render() {
+    return (
+      <View style={styles.container}>
+        {!this.state.isOffline &&
+          <FullScreenCamera
+            setLoading={this.setLoading}
+            onPictureTaken={this.handlePictureTaken}
+          />
+        }
+        <View style={styles.helpButtonContainer}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('InfoScreen')}>
+            <Entypo name="info-with-circle" color="#FCFCFC" size={30} />
+          </TouchableOpacity>
+        </View>
+        {this.state.showTutorialScreen && <IntroCards />}
+        {this.state.safeAreaMessage ? (
+          <SafeAreaView style={styles.safeAreaView}>
+            <Text style={styles.safeText}>
+              {this.state.safeAreaMessage}
+            </Text>
+          </SafeAreaView>
+        ) : null}
+        {this.state.isLoading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" />
+          </View>
+        ) : null}
+      </View>
+    );
   }
 
 }
