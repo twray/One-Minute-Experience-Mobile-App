@@ -29,7 +29,6 @@ export default StyleSheet.create({
   },
   helpButtonContainer: {
     position: 'absolute',
-    zIndex: 10,
     top: 20 + Constants.statusBarHeight,
     right: 20,
   },

@@ -78,10 +78,12 @@ export default class CameraScreen extends React.Component<
   }
 
   public componentWillUnmount() {
+
     NetInfo.isConnected.removeEventListener(
       'connectionChange',
       this.handleConnectionChange,
     );
+
   }
 
   private handleConnectionChange(isConnected: boolean) {
