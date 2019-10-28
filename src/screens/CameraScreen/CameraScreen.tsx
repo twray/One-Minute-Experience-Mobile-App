@@ -65,6 +65,7 @@ export default class CameraScreen extends React.Component<
   }
 
   public componentDidMount() {
+
     NetInfo.isConnected.addEventListener(
       'connectionChange',
       this.handleConnectionChange,
@@ -86,10 +87,12 @@ export default class CameraScreen extends React.Component<
   public render() {
     return (
       <View style={styles.container}>
-        <FullScreenCamera
-          setLoading={this.setLoading}
-          onPictureTaken={this.handlePictureTaken}
-        />
+        {!this.state.isOffline &&
+          <FullScreenCamera
+            setLoading={this.setLoading}
+            onPictureTaken={this.handlePictureTaken}
+          />
+        }
         <View style={styles.helpButtonContainer}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('InfoScreen')}>
             <Entypo name="info-with-circle" color="#FCFCFC" size={30} />
@@ -114,10 +117,11 @@ export default class CameraScreen extends React.Component<
 
   private handleConnectionChange(isConnected: boolean) {
     if (!isConnected) {
-      this.setSafeAreaMessage('It appears like you are offline.\nArtworks might not be recognized.');
+      this.setSafeAreaMessage('This app requires an internet connection to work.');
     } else if (isConnected) {
       this.unsetSafeAreaMessage();
     }
+    this.setState({isOffline: !isConnected});
   }
 
   private setLoading(value: boolean) {
@@ -161,7 +165,6 @@ export default class CameraScreen extends React.Component<
     } finally {
       this.setLoading(false);
     }
-
   }
 
 }

@@ -3,7 +3,8 @@ import Constants from 'expo-constants';
 
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#444444'
   },
   loadingContainer: {
     position: 'absolute',

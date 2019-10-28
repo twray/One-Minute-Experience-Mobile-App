@@ -12,6 +12,27 @@ export default StyleSheet.create({
     flex: 1,
   },
 
+  permissionsMessageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#444444',
+    padding: 30
+  },
+
+  permissionsMessage: {
+    fontSize: 18,
+    lineHeight: 28,
+    fontFamily: 'SFCompact-Light',
+    color: '#FFFFFF',
+    marginBottom: 15,
+    textAlign: 'center'
+  },
+
   innerContainer: {
     flex: 1,
     paddingTop: Constants.statusBarHeight,

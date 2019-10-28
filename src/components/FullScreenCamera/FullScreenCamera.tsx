@@ -22,7 +22,9 @@ interface CameraState {
   hasCameraPermission: boolean;
   ratio: string | undefined;
   takingPicture: boolean;
+  permissionHasBeenAsked: boolean;
 }
+
 interface CameraProps {
   onPictureTaken: (imageUri: string) => void;
   setLoading: (value: boolean) => void;
@@ -40,6 +42,7 @@ export default class FullScreenCamera extends React.Component<
       takingPicture: false,
       ratio: undefined,
       hasCameraPermission: false,
+      permissionHasBeenAsked: false
     };
 
     this.takePicture = this.takePicture.bind(this);
@@ -48,13 +51,26 @@ export default class FullScreenCamera extends React.Component<
 
   public async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    this.setState({
+      hasCameraPermission: status === 'granted',
+      permissionHasBeenAsked: true
+    });
   }
 
   public render() {
-    const { hasCameraPermission, ratio, takingPicture } = this.state;
-    if (!hasCameraPermission) {
-      return <Text>Permission to camera not granted</Text>;
+
+    const { hasCameraPermission, permissionHasBeenAsked, ratio, takingPicture } = this.state;
+    if (!hasCameraPermission && permissionHasBeenAsked) {
+      return (
+        <View style={styles.permissionsMessageContainer}>
+          <Text style={styles.permissionsMessage}>
+            This app uses image recognition to identify the artworks you see in the museum. Therefore, it requires access to your phone's camera.
+          </Text>
+          <Text style={styles.permissionsMessage}>
+            You can enable camera access by changing the permission settings on your phone.
+          </Text>
+        </View>
+      );
     }
 
     return (
