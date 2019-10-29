@@ -63,6 +63,12 @@ const InfoScreen: React.FC<NavigationScreenProps> = props => (
       <Text style={LinkText} onPress={() => Linking.openURL('https://gifting.digital/one-minute-experience/')}>
         The GIFT Box - One Minute
       </Text>
+      <Text style={BodyText}>
+        If you have any questions about One Minute, feel free to contact us at gift@itu.dk.
+      </Text>
+      <Text style={LinkText} onPress={() => Linking.openURL('https://gifting.digital/the-gift-project/')}>
+        About the GIFT Project
+      </Text>
     </ScrollView>
   </View>
 );
