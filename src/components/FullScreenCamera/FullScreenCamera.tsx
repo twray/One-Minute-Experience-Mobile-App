@@ -51,6 +51,7 @@ export default class FullScreenCamera extends React.Component<
 
   public async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    console.log('')
     this.setState({
       hasCameraPermission: status === 'granted',
       permissionHasBeenAsked: true
@@ -60,40 +61,42 @@ export default class FullScreenCamera extends React.Component<
   public render() {
 
     const { hasCameraPermission, permissionHasBeenAsked, ratio, takingPicture } = this.state;
-    if (!hasCameraPermission && permissionHasBeenAsked) {
-      return (
-        <View style={styles.permissionsMessageContainer}>
-          <Text style={styles.permissionsMessage}>
-            This app uses image recognition to identify the artworks you see in the museum. Therefore, it requires access to your phone's camera.
-          </Text>
-          <Text style={styles.permissionsMessage}>
-            You can enable camera access by changing the permission settings on your phone.
-          </Text>
-        </View>
-      );
-    }
 
     return (
-      <View style={styles.container}>
-        <Camera
-          style={styles.camera}
-          ref={this.camera as any}
-          ratio={ratio}
-          onCameraReady={this.prepareRatio}
-        >
-          <SafeAreaView style={styles.innerContainer}>
-            <TouchableOpacity
-              onPress={this.takePicture}
-              disabled={takingPicture}
+      <React.Fragment>
+        {permissionHasBeenAsked && !hasCameraPermission &&
+          <View style={styles.permissionsMessageContainer}>
+            <Text style={styles.permissionsMessage}>
+              This app uses image recognition to identify the artworks you see in the museum. Therefore, it requires access to your phone's camera.
+            </Text>
+            <Text style={styles.permissionsMessage}>
+              You can enable camera access by changing the permission settings on your phone.
+            </Text>
+          </View>
+        }
+        {permissionHasBeenAsked && hasCameraPermission &&
+          <View style={styles.container}>
+            <Camera
+              style={styles.camera}
+              ref={this.camera as any}
+              ratio={ratio}
+              onCameraReady={this.prepareRatio}
             >
-              <View style={styles.outerCameraButton}>
-                <View style={styles.innerCameraButton} />
-              </View>
-            </TouchableOpacity>
-          </SafeAreaView>
-        </Camera>
-      </View>
-    );
+              <SafeAreaView style={styles.innerContainer}>
+                <TouchableOpacity
+                  onPress={this.takePicture}
+                  disabled={takingPicture}
+                >
+                  <View style={styles.outerCameraButton}>
+                    <View style={styles.innerCameraButton} />
+                  </View>
+                </TouchableOpacity>
+              </SafeAreaView>
+            </Camera>
+          </View>
+        }
+      </React.Fragment>
+    )
   }
 
   private async prepareRatio() {
