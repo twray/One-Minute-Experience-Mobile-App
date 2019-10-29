@@ -1,14 +1,6 @@
-import Constants from 'expo-constants';
-
 const APIEndpoints = {
-  dev: {
-    root: 'https://modgift.itu.dk/1mev2',
-    db: 'https://modgift.itu.dk/1mev2/_'
-  },
-  prod: {
-    root: 'https://modgift.itu.dk/1mev2',
-    db: 'https://modgift.itu.dk/1mev2/_'
-  }
+  root: 'https://modgift.itu.dk/1mev2',
+  db: 'https://modgift.itu.dk/1mev2/_'
 };
 
 const ProductionKeys = {
@@ -28,10 +20,7 @@ const DevelopmentKeys = {
 }
 
 export function getAPIEndpoint() {
-  const rc = Constants.manifest.releaseChannel;
-  if (rc === undefined) return APIEndpoints.dev;
-  if (rc === 'prod') return APIEndpoints.prod;
-  throw new Error('Error retrieving API endpoint');
+  return APIEndpoints;
 }
 
 export function getKeys() {
