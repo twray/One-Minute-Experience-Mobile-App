@@ -87,11 +87,6 @@ export default class CameraScreen extends React.Component<
   }
 
   private handleConnectionChange(isConnected: boolean) {
-    if (!isConnected) {
-      this.setSafeAreaMessage('This app requires an internet connection.');
-    } else if (isConnected) {
-      this.unsetSafeAreaMessage();
-    }
     this.setState({isOffline: !isConnected});
   }
 
@@ -130,7 +125,7 @@ export default class CameraScreen extends React.Component<
       }
 
     } catch (e) {
-      this.setSafeAreaMessage('A problem occurred while recognising the artwork.\nPlease try again.');
+      this.setSafeAreaMessage('A problem occurred while recognising the artwork.\nPlease check that your phone has an Internet connection and try again.');
       return;
     } finally {
       this.setLoading(false);
@@ -140,12 +135,10 @@ export default class CameraScreen extends React.Component<
   public render() {
     return (
       <View style={styles.container}>
-        {!this.state.isOffline &&
-          <FullScreenCamera
-            setLoading={this.setLoading}
-            onPictureTaken={this.handlePictureTaken}
-          />
-        }
+        <FullScreenCamera
+          setLoading={this.setLoading}
+          onPictureTaken={this.handlePictureTaken}
+        />
         <View style={styles.helpButtonContainer}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('InfoScreen')}>
             <Entypo name="info-with-circle" color="#FCFCFC" size={30} />
