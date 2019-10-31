@@ -8,10 +8,12 @@ import {
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { AntDesign } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 
 import styles from './styles';
 const { Heading, BodyText, LinkText } = styles;
 
+const appVersion = Constants.manifest.version;
 
 const InfoScreen: React.FC<NavigationScreenProps> = props => (
   <View style={styles.container}>
@@ -68,6 +70,9 @@ const InfoScreen: React.FC<NavigationScreenProps> = props => (
       </Text>
       <Text style={LinkText} onPress={() => Linking.openURL('https://gifting.digital/the-gift-project/')}>
         About the GIFT Project
+      </Text>
+      <Text style={BodyText}>
+        App version: {appVersion}
       </Text>
     </ScrollView>
   </View>
