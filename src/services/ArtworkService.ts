@@ -58,7 +58,7 @@ export interface IArtworkAPIResultDataImageThumbnail {
 
 export interface PredictionResult {
   artworkRecognized: boolean;
-  artwork?: IArtwork;
+  artworks?: IArtwork[];
 }
 
 export interface ImageMeta {
@@ -112,12 +112,20 @@ export async function recognizeImage(image: ImageMeta): Promise<PredictionResult
 
     if (predictedResult && predictedResult.probability > 0.7) {
 
-      const artwork = await getArtworkByTagId(predictedResult.tagId);
+      let artworks: IArtwork[] = []
+      const artwork: IArtwork = await getArtworkByTagId(predictedResult.tagId);
+      artworks.push(artwork);
 
-      if (artwork) {
+      try {
+        artworks = await getMatchingArtworks(artwork);
+      } catch (e) {
+        console.log('Unable to fetch matching artworks');
+      }
+
+      if (artworks.length > 0) {
         return {
           artworkRecognized: true,
-          artwork
+          artworks
         }
       } else {
         return { artworkRecognized: false }
@@ -150,6 +158,28 @@ export async function getArtworkByTagId(tagId: string): Promise<IArtwork> {
   } catch(e) {
 
     console.log('Unable to load artwork information');
+    console.log(e);
+    throw e;
+  }
+
+}
+
+async function getMatchingArtworks(artwork: IArtwork): Promise<IArtwork[]> {
+
+  try {
+
+    const response = await fetch(`${getAPIEndpoint().db}/items/${getKeys().collection}?filter[artist_name]=${encodeURIComponent(artwork.artist_name)}&filter[title]=${encodeURIComponent(artwork.title)}&fields=*,image.*`);
+    const result = await response.json();
+
+    if (result.data && result.data.length > 0) {
+      const artworks = result.data.map((artwork: IArtworkAPIResultData) => processArtworkData(artwork));
+      return Promise.resolve(artworks);
+    } else {
+      return Promise.reject();
+    }
+
+  } catch(e) {
+    console.log('Unable to request matching artworks');
     console.log(e);
     throw e;
   }

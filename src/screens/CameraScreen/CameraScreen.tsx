@@ -15,7 +15,8 @@ import IntroCards from '../../components/IntroCards';
 import styles from './styles';
 import {
   recognizeImage,
-  compressAndFormatImage
+  compressAndFormatImage,
+  IArtwork
 } from '../../services/ArtworkService';
 import AnalyticsService from '../../services/AnalyticsService';
 
@@ -108,19 +109,26 @@ export default class CameraScreen extends React.Component<
     try {
 
       const image = await compressAndFormatImage(imageUri);
-      const { artworkRecognized, artwork } = await recognizeImage(image);
+      const { artworkRecognized, artworks } = await recognizeImage(image);
 
-      if (artworkRecognized && artwork) {
+      if (artworkRecognized && artworks && artworks.length > 0) {
 
         if (this.state.safeAreaMessage) {
           this.unsetSafeAreaMessage();
         }
-
         this.setState({showTutorialScreen: false});
         AnalyticsService.instance.artworkScanSuccess();
-        this.props.navigation.navigate('StoryModal', {
-          artwork,
-        });
+
+        if (artworks.length === 1) {
+          const artwork: IArtwork = artworks[0];
+          this.props.navigation.navigate('StoryModal', {
+            artwork
+          });
+        } else if (artworks.length > 1) {
+          this.props.navigation.navigate('StorySelector', {
+            artworks
+          });
+        }
 
       } else if (!artworkRecognized) {
         AnalyticsService.instance.artworkScanFail();

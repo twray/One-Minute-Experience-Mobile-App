@@ -2,6 +2,7 @@ import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import CameraScreen from './CameraScreen';
 import StoryModalScreen from './StoryModalScreen';
+import StorySelectorScreen from './StorySelectorScreen';
 import InfoScreen from './InfoScreen';
 
 const MainStack = createStackNavigator(
@@ -17,6 +18,7 @@ const RootStack = createStackNavigator(
   {
     Main: { screen: MainStack },
     StoryModal: { screen: StoryModalScreen },
+    StorySelector: { screen: StorySelectorScreen },
     InfoScreen: { screen: InfoScreen }
   },
   {

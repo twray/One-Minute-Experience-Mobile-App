@@ -4,9 +4,9 @@
     "slug": "one-minute",
     "sdkVersion": "33.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
-    "description": "One Minute is a simple companion that offers short stories about the rich and diverse works on display at Brighton Museum.",
+    "description": "One Minute is a simple companion that offers short stories about the rich and diverse works on display.",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",

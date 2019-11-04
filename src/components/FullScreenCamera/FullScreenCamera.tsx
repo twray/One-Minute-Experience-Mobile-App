@@ -51,7 +51,6 @@ export default class FullScreenCamera extends React.Component<
 
   public async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    console.log('')
     this.setState({
       hasCameraPermission: status === 'granted',
       permissionHasBeenAsked: true

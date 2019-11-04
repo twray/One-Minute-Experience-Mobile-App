@@ -6,8 +6,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
-    paddingTop: 30 + Constants.statusBarHeight,
-    height: 500
+    paddingTop: 30 + Constants.statusBarHeight
   },
   closeButtonContainer: {
     position: 'absolute',
