@@ -17,6 +17,7 @@ import {
   recognizeImage,
   compressAndFormatImage
 } from '../../services/ArtworkService';
+import AnalyticsService from '../../services/AnalyticsService';
 
 interface CameraScreenProps extends NavigationScreenProps {}
 
@@ -116,15 +117,18 @@ export default class CameraScreen extends React.Component<
         }
 
         this.setState({showTutorialScreen: false});
+        AnalyticsService.instance.artworkScanSuccess();
         this.props.navigation.navigate('StoryModal', {
           artwork,
         });
 
       } else if (!artworkRecognized) {
+        AnalyticsService.instance.artworkScanFail();
         this.setSafeAreaMessage('We don\'t have a story for this artwork.\nPlease try another.');
       }
 
     } catch (e) {
+      AnalyticsService.instance.artworkScanFail();
       this.setSafeAreaMessage('A problem occurred while recognising the artwork.\nPlease check that your phone has an Internet connection and try again.');
       return;
     } finally {

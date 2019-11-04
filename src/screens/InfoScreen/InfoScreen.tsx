@@ -45,7 +45,7 @@ const InfoScreen: React.FC<NavigationScreenProps> = props => (
         What about my privacy?
       </Text>
       <Text style={BodyText}>
-        One Minute does not track you in any way. The app does not gather any location information from you. It does not collect any personally identifiable information from you. Aside from the camera, it does not track or load any data from your phone or its sensors.
+        This app collects anonymised usage data. The app tracks which objects you scan and how long you spend reading each story. We use this data to better help us understand how we can create meaningful visitor experiences within museums using digital tools. This app does not collect any personally identifiable information from you. Aside from the camera, it does not track or load any data from your phone or its sensors.
       </Text>
       <Text style={BodyText}>
         The app requires access to your phone's camera in order to work. The picture that you take with your camera is sent to Microsoft's Custom Vision service so that it can be recognised against our database of works. We do not use your picture for any other purpose.

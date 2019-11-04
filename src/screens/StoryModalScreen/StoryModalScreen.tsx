@@ -6,6 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import styles from './styles';
 import ArtworkStory from '../../components/ArtworkStory';
 import { IArtwork } from '../../services/ArtworkService';
+import AnalyticsService from '../../services/AnalyticsService';
 
 interface StoryModalScreenProps extends NavigationScreenProps {}
 
@@ -14,8 +15,14 @@ export default class StoryModalScreen extends React.Component<
   {}
 > {
 
-  constructor(props: StoryModalScreenProps) {
-    super(props);
+  componentDidMount() {
+    const artwork: IArtwork = this.props.navigation.getParam('artwork');
+    AnalyticsService.instance.viewStory(`${artwork.id}: ${artwork.artist_name} - ${artwork.title}`);
+  }
+
+  componentWillUnmount() {
+    const artwork: IArtwork = this.props.navigation.getParam('artwork');
+    AnalyticsService.instance.readStory(`${artwork.id}: ${artwork.artist_name} - ${artwork.title}`);
   }
 
   public render() {
