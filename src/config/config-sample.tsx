@@ -10,6 +10,7 @@ const config: AppConfiguration = {
     projectID: "[PROJECT_ID]",
     predictionKey: "[PREDICTION_KEY]",
     predictionEndpoint: "[PREDICTION_ENDPOINT]",
+    predictionConfidenceThreshold: 0.9,
     iteration: "production"
   }
 };

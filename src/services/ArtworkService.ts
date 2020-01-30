@@ -4,6 +4,7 @@ import {
   getAPIEndpoint,
   getKeys
 } from '../environment';
+import config from '../config/config';
 import * as ImageManipulator from 'expo-image-manipulator';
 
 export interface IStorySegment {
@@ -110,7 +111,7 @@ export async function recognizeImage(image: ImageMeta): Promise<PredictionResult
 
     const predictedResult = result.predictions && result.predictions[0];
 
-    if (predictedResult && predictedResult.probability > 0.7) {
+    if (predictedResult && predictedResult.probability > config.customVision.predictionConfidenceThreshold) {
 
       let artworks: IArtwork[] = []
       const artwork: IArtwork = await getArtworkByTagId(predictedResult.tagId);

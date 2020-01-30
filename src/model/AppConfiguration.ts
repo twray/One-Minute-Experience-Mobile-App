@@ -6,6 +6,7 @@ interface AppConfiguration {
     projectID: string;
     predictionKey: string;
     predictionEndpoint: string;
+    predictionConfidenceThreshold: number;
     iteration: string;
   }
 }
