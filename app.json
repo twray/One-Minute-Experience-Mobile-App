@@ -24,7 +24,8 @@
       }
     },
     "android": {
-      "package": "dk.itu.oneminute"
+      "package": "dk.itu.oneminute",
+      "versionCode": 105
     }
   }
 }
