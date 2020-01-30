@@ -12,7 +12,8 @@ interface AppConfiguration {
     iteration: string;
   },
   dialog: {
-    introCards: IntroSegment[]
+    introCards: IntroSegment[],
+    infoScreen: JSX.Element
   }
 }
 
