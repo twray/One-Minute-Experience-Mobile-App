@@ -1,3 +1,5 @@
+import IntroSegment from './IntroSegment';
+
 interface AppConfiguration {
   serverRoot: string;
   serverAPIRoot: string;
@@ -8,6 +10,9 @@ interface AppConfiguration {
     predictionEndpoint: string;
     predictionConfidenceThreshold: number;
     iteration: string;
+  },
+  dialog: {
+    introCards: IntroSegment[]
   }
 }
 

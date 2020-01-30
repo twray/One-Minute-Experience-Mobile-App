@@ -5,42 +5,23 @@ import {
   Dimensions,
   Text,
   Image,
-  Platform
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import Constants from 'expo-constants';
+import config from '../../config/config';
+
+import IntroSegment from '../../model/IntroSegment';
 
 import styles from './styles';
-
-interface IntroSegment {
-  readonly text?: string;
-  readonly image_url?: string;
-  readonly title?: string;
-  readonly bottom_text?: string;
-  readonly transparent?: boolean;
-}
-
-const IntroSegments: IntroSegment[] = [ {
-    text: 'One Minute a simple companion that offers short stories about objects in this museum.'
-  }, {
-    text: 'These stories are presented in bite-sized pieces, just like what you see here.'
-  }, {
-    text: 'They might tell you something interesting, or perhaps encourage you to look a little closer.'
-  }, {
-    text: 'Tap the button below to scan an object and read its story.',
-    transparent: true
-  }];
 
 export default class IntroCards extends React.Component {
 
   render() {
     const { width } = Dimensions.get('window');
-    const statusBarOffset = Platform.OS === "android" ? {paddingTop: Constants.statusBarHeight} : {}
     return (
       <SafeAreaView style={styles.IntroCardsContainer}>
         <View style={styles.CarouselContainer}>
           <Carousel
-            data={IntroSegments}
+            data={config.dialog.introCards}
             renderItem={({item}) => <IntroCard {...item} />}
             sliderWidth={width}
             itemWidth={width * 0.8}
