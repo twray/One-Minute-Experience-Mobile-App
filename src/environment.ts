@@ -1,28 +1,17 @@
-import ENV from './env';
-
-// If you are deploying One Minute for your museum, you would need to create
-// an env.ts file that exports these values
+import config from './config/config';
 
 const APIEndpoints = {
-  root: ENV.prod.root,
-  db: ENV.prod.db
+  root: config.serverRoot,
+  db: config.serverAPIRoot
 };
 
 const ProductionKeys = {
-  endpoint: ENV.prod.endpoint,
-  projectKey: ENV.prod.projectKey,
-  predictionKey: ENV.prod.predictionKey,
-  iteration: ENV.prod.iteration,
-  collection: ENV.prod.collection
+  endpoint: config.customVision.predictionEndpoint,
+  projectKey: config.customVision.projectID,
+  predictionKey: config.customVision.predictionKey,
+  iteration: config.customVision.iteration,
+  collection: config.serverDBTable
 };
-
-const DevelopmentKeys = {
-  endpoint: ENV.dev.endpoint,
-  projectKey: ENV.dev.projectKey,
-  predictionKey: ENV.dev.predictionKey,
-  iteration: ENV.dev.iteration,
-  collection: ENV.dev.collection
-}
 
 export function getAPIEndpoint() {
   return APIEndpoints;
