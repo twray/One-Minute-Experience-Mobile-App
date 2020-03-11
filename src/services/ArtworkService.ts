@@ -41,6 +41,7 @@ export interface IArtworkAPIResultDataImage {
   readonly id: number;
   readonly filename: string;
   readonly data: IArtworkAPIResultDataImageData;
+  readonly private_hash: string;
 }
 
 export interface IArtworkAPIResultDataImageData {
@@ -197,9 +198,18 @@ function processArtworkData(data: IArtworkAPIResultData): IArtwork {
     {id: 1, text: data.story_segment_5}
   ];
 
-  const imageQuality: string = 'good';
-  const imagePath: string = `${getAPIEndpoint().root}/thumbnail/_/1024/1024/contain/${imageQuality}/${data.image.filename}`;
-  const thumbnailPath: string = `${getAPIEndpoint().root}/thumbnail/_/200/200/contain/${imageQuality}/${data.image.filename}`;
+  let imagePath: string = '';
+  let thumbnailPath: string = '';
+
+  if (data.image && data.image.private_hash !== undefined) {
+    imagePath = `${getAPIEndpoint().db}/assets/${data.image.private_hash}?w=1024&h=1024&f=contain&q=80`;
+    thumbnailPath = `${getAPIEndpoint().db}/assets/${data.image.private_hash}?w=200&h=200&f=contain&q=80`;
+  } else if (data.image && data.image.private_hash === undefined) {
+    const imageQuality: string = 'good';
+    imagePath = `${getAPIEndpoint().root}/thumbnail/_/1024/1024/contain/${imageQuality}/${data.image.filename}`;
+    thumbnailPath = `${getAPIEndpoint().root}/thumbnail/_/200/200/contain/${imageQuality}/${data.image.filename}`;
+  }
+
 
   const artwork: IArtwork = {
     id: data.id,
