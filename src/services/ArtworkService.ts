@@ -102,7 +102,7 @@ export async function recognizeImage(image: ImageMeta): Promise<PredictionResult
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Prediction-Key': 'a267e2c8185241e4808534c70f96157f',
+        'Prediction-Key': customVisionKeys.predictionKey,
         'Content-Type': 'multipart/form-data'
       },
       body: formBody
