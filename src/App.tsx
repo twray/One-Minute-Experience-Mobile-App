@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import AppContainer from './screens';
-import { Font } from 'expo';
+import * as Font from 'expo-font';
 import { View } from 'react-native';
 
 interface AppState {

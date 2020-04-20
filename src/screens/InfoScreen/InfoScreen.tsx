@@ -5,7 +5,8 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native';
-import { NavigationScreenProps } from 'react-navigation';
+import { RootStackParamList } from '../';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
 
 import config from '../../config/config';
@@ -14,7 +15,16 @@ import styles from './styles';
 
 const appVersion = Constants.manifest.version;
 
-const InfoScreen: React.FC<NavigationScreenProps> = props => (
+type InfoScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Info'
+>;
+
+interface InfoScreenProps {
+  navigation: InfoScreenNavigationProp
+}
+
+const InfoScreen: React.FC<InfoScreenProps> = props => (
   <View style={styles.container}>
     <View style={styles.closeButtonContainer}>
       <TouchableOpacity onPress={() => props.navigation.goBack()}>

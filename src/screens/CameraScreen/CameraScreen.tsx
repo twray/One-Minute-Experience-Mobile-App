@@ -4,11 +4,12 @@ import {
   ActivityIndicator,
   Text,
   SafeAreaView,
-  NetInfo,
   AsyncStorage,
   TouchableOpacity
 } from 'react-native';
-import { NavigationScreenProps } from 'react-navigation';
+import NetInfo, { NetInfoSubscription } from '@react-native-community/netinfo';
+import { RootStackParamList } from '../../screens/';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Entypo } from '@expo/vector-icons';
 import FullScreenCamera from '../../components/FullScreenCamera';
 import IntroCards from '../../components/IntroCards';
@@ -20,7 +21,14 @@ import {
 } from '../../services/ArtworkService';
 import AnalyticsService from '../../services/AnalyticsService';
 
-interface CameraScreenProps extends NavigationScreenProps {}
+type CameraScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Camera'
+>;
+
+interface CameraScreenProps {
+  navigation: CameraScreenNavigationProp;
+}
 
 interface CameraScreenState {
   isLoading: boolean;
@@ -37,6 +45,8 @@ export default class CameraScreen extends React.Component<
     header: null,
   };
 
+  unsubscribeNetInfo?: NetInfoSubscription;
+
   constructor(props: CameraScreenProps) {
     super(props);
 
@@ -49,43 +59,34 @@ export default class CameraScreen extends React.Component<
     this.state = {
       isLoading: false,
       isOffline: true,
-      showTutorialScreen: true,
+      showTutorialScreen: false,
       safeAreaMessage: ''
     };
 
   }
 
-  public async componentWillMount() {
+  public async componentDidMount() {
 
     const alreadyLaunched = await AsyncStorage.getItem('alreadyLaunched');
-    if (alreadyLaunched) {
-      this.setState({showTutorialScreen: false});
+
+    if (!alreadyLaunched) {
+      this.setState({showTutorialScreen: true});
     } else {
       await AsyncStorage.setItem('alreadyLaunched', 'true');
     }
 
-  }
+    this.unsubscribeNetInfo = NetInfo.addEventListener(state => {
+      this.handleConnectionChange(state.isConnected);
+    });
 
-  public componentDidMount() {
-
-    NetInfo.isConnected.addEventListener(
-      'connectionChange',
-      this.handleConnectionChange,
-    );
-
-    NetInfo.isConnected.fetch().then(e => {
-      this.handleConnectionChange(e);
+    NetInfo.fetch().then(state => {
+      this.handleConnectionChange(state.isConnected)
     });
 
   }
 
   public componentWillUnmount() {
-
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectionChange,
-    );
-
+    this.unsubscribeNetInfo && this.unsubscribeNetInfo();
   }
 
   private handleConnectionChange(isConnected: boolean) {
@@ -152,7 +153,7 @@ export default class CameraScreen extends React.Component<
           onPictureTaken={this.handlePictureTaken}
         />
         <View style={styles.helpButtonContainer}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('InfoScreen')}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Info')}>
             <Entypo name="info-with-circle" color="#FCFCFC" size={30} />
           </TouchableOpacity>
         </View>

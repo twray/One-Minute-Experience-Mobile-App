@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { NavigationScreenProps } from 'react-navigation';
+import { RootStackParamList } from '..';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
 import styles from './styles';
@@ -8,7 +10,20 @@ import ArtworkStory from '../../components/ArtworkStory';
 import { IArtwork } from '../../services/ArtworkService';
 import AnalyticsService from '../../services/AnalyticsService';
 
-interface StoryModalScreenProps extends NavigationScreenProps {}
+type StoryModalScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'StoryModal'
+>;
+
+type StoryModalRouteProp = RouteProp<
+  RootStackParamList,
+  'StoryModal'
+>;
+
+interface StoryModalScreenProps {
+  navigation: StoryModalScreenNavigationProp,
+  route: StoryModalRouteProp
+}
 
 export default class StoryModalScreen extends React.Component<
   StoryModalScreenProps,
@@ -16,17 +31,17 @@ export default class StoryModalScreen extends React.Component<
 > {
 
   componentDidMount() {
-    const artwork: IArtwork = this.props.navigation.getParam('artwork');
+    const artwork: IArtwork = this.props.route.params.artwork;
     AnalyticsService.instance.viewStory(`${artwork.id}: ${artwork.artist_name} - ${artwork.title}`);
   }
 
   componentWillUnmount() {
-    const artwork: IArtwork = this.props.navigation.getParam('artwork');
+    const artwork: IArtwork = this.props.route.params.artwork;
     AnalyticsService.instance.readStory(`${artwork.id}: ${artwork.artist_name} - ${artwork.title}`);
   }
 
   public render() {
-    const artwork: IArtwork = this.props.navigation.getParam('artwork');
+    const artwork: IArtwork = this.props.route.params.artwork;
     return (
       <View style={styles.container}>
         <ArtworkStory {...artwork} />

@@ -6,13 +6,28 @@ import {
   TouchableOpacity,
   ImageBackground
 } from 'react-native';
-import { NavigationScreenProps } from 'react-navigation';
+import { RootStackParamList } from '..';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 
 import styles from './styles';
 import { IArtwork } from '../../services/ArtworkService';
 import { AntDesign } from '@expo/vector-icons';
 
-interface StorySelectorScreenProps extends NavigationScreenProps {}
+type StoryModalScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'StorySelector'
+>;
+
+type StoryModelScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'StorySelector'
+>;
+
+interface StorySelectorScreenProps {
+  navigation: StoryModalScreenNavigationProp
+  route: StoryModelScreenRouteProp
+}
 
 interface StorySelectorScreenState {
   artwork: IArtwork
@@ -40,8 +55,8 @@ export default class StoryModalScreen extends React.Component<
 
   componentDidMount() {
     this.setState({
-      artwork: this.props.navigation.getParam('artworks')[0] || null,
-      artworks: this.props.navigation.getParam('artworks') || []
+      artwork: this.props.route.params.artworks[0] || null,
+      artworks: this.props.route.params.artworks || []
     });
   }
 
